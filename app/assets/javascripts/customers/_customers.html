@@ -1,0 +1,38 @@
+<h1 class="page-header">TerpSYS</h1>
+
+<h2>Customers</h2>
+
+<div ng-repeat="customer in customers">
+	<span style="font-size:20px; margin-left:10px;">	
+		 {{customer.contact_name}} at <a ng-href="#/customers/{{customer.id}}">{{customer.company_name}}</a>
+	</span>
+</div>
+
+<form ng-submit="addCustomer()" style="margin-top:30px;">
+    <h3>Add a new customer</h3>
+    <div class="form-group">
+      <input type="text"
+        class="form-control"
+        placeholder="Company Name"
+        ng-model="company_name"></input>
+    </div>
+    <div class="form-group">
+      <input type="text"
+      class="form-control"
+      placeholder="Contact Name"
+      ng-model="contact_name"></input>
+    </div>
+    <div class="form-group">
+      <input type="text"
+      class="form-control"
+      placeholder="Contact Email"
+      ng-model="contact_email"></input>
+    </div>
+    <div class="form-group">
+      <input type="text"
+      class="form-control"
+      placeholder="Contact Phone"
+      ng-model="contact_phone"></input>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Customer</button>
+</form>
