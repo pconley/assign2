@@ -20,6 +20,13 @@ class A1::CustomersController < A1::BaseController
     customer.update!(customer_params)
     respond_with(:a1,customer)
   end
+  
+  def destroy
+    puts "*** customer destroy. id=#{params[:id]}"
+    customer = Customer.find(params[:id])
+    customer.destroy!
+    respond_with(:a1,customer)
+  end
 
   private
   

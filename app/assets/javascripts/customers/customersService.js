@@ -19,6 +19,17 @@ angular.module('ngTerpsys')
 	      o.customers.push(data);
 	    });
 	  };
+	  o.delete = function(customer) {
+		console.log('>>> delete customer #', customer.id);
+	    return $http.delete('/a1/customers/'+customer.id+'.json').success(function(data){
+		  var index = o.customers.indexOf(customer);
+		  o.customers.splice(index, 1);     
+		  console.log('<<< delete customer at index ='+index+' ...',customer);		
+	    }).error(function(data){
+		  console.log('<<< delete error');
+		  alert('customer delete failed on server');
+	    });
+	  };
 	  o.update = function(customer) {
 		console.log('customersService: update. customer...', customer)
 	    return $http.put('/a1/customers/'+customer.id+'.json', customer).success(function(data){

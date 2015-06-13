@@ -1,5 +1,5 @@
 /**
- * @license AngularJS v1.4.1-build.4042+sha.071be60
+ * @license AngularJS v1.4.1-build.4057+sha.71fc3f4
  * (c) 2010-2015 Google, Inc. http://angularjs.org
  * License: MIT
  */
@@ -57,7 +57,7 @@ function minErr(module, ErrorConstructor) {
       return match;
     });
 
-    message += '\nhttp://errors.angularjs.org/1.4.1-build.4042+sha.071be60/' +
+    message += '\nhttp://errors.angularjs.org/1.4.1-build.4057+sha.71fc3f4/' +
       (module ? module + '/' : '') + code;
 
     for (i = SKIP_INDEXES, paramPrefix = '?'; i < templateArgs.length; i++, paramPrefix = '&') {
@@ -864,9 +864,18 @@ function copy(source, destination, stackSource, stackDest) {
 
   if (!destination) {
     destination = source;
-    if (source) {
+    if (isObject(source)) {
+      var index;
+      if (stackSource && (index = stackSource.indexOf(source)) !== -1) {
+        return stackDest[index];
+      }
+
+      // TypedArray, Date and RegExp have specific copy functionality and must be
+      // pushed onto the stack before returning.
+      // Array and other objects create the base object and recurse to copy child
+      // objects. The array/object will be pushed onto the stack when recursed.
       if (isArray(source)) {
-        destination = copy(source, [], stackSource, stackDest);
+        return copy(source, [], stackSource, stackDest);
       } else if (isTypedArray(source)) {
         destination = new source.constructor(source);
       } else if (isDate(source)) {
@@ -874,9 +883,14 @@ function copy(source, destination, stackSource, stackDest) {
       } else if (isRegExp(source)) {
         destination = new RegExp(source.source, source.toString().match(/[^\/]*$/)[0]);
         destination.lastIndex = source.lastIndex;
-      } else if (isObject(source)) {
+      } else {
         var emptyObject = Object.create(getPrototypeOf(source));
-        destination = copy(source, emptyObject, stackSource, stackDest);
+        return copy(source, emptyObject, stackSource, stackDest);
+      }
+
+      if (stackDest) {
+        stackSource.push(source);
+        stackDest.push(destination);
       }
     }
   } else {
@@ -887,9 +901,6 @@ function copy(source, destination, stackSource, stackDest) {
     stackDest = stackDest || [];
 
     if (isObject(source)) {
-      var index = stackSource.indexOf(source);
-      if (index !== -1) return stackDest[index];
-
       stackSource.push(source);
       stackDest.push(destination);
     }
@@ -898,12 +909,7 @@ function copy(source, destination, stackSource, stackDest) {
     if (isArray(source)) {
       destination.length = 0;
       for (var i = 0; i < source.length; i++) {
-        result = copy(source[i], null, stackSource, stackDest);
-        if (isObject(source[i])) {
-          stackSource.push(source[i]);
-          stackDest.push(result);
-        }
-        destination.push(result);
+        destination.push(copy(source[i], null, stackSource, stackDest));
       }
     } else {
       var h = destination.$$hashKey;
@@ -917,20 +923,20 @@ function copy(source, destination, stackSource, stackDest) {
       if (isBlankObject(source)) {
         // createMap() fast path --- Safe to avoid hasOwnProperty check because prototype chain is empty
         for (key in source) {
-          putValue(key, source[key], destination, stackSource, stackDest);
+          destination[key] = copy(source[key], null, stackSource, stackDest);
         }
       } else if (source && typeof source.hasOwnProperty === 'function') {
         // Slow path, which must rely on hasOwnProperty
         for (key in source) {
           if (source.hasOwnProperty(key)) {
-            putValue(key, source[key], destination, stackSource, stackDest);
+            destination[key] = copy(source[key], null, stackSource, stackDest);
           }
         }
       } else {
         // Slowest path --- hasOwnProperty can't be called as a method
         for (key in source) {
           if (hasOwnProperty.call(source, key)) {
-            putValue(key, source[key], destination, stackSource, stackDest);
+            destination[key] = copy(source[key], null, stackSource, stackDest);
           }
         }
       }
@@ -938,16 +944,6 @@ function copy(source, destination, stackSource, stackDest) {
     }
   }
   return destination;
-
-  function putValue(key, val, destination, stackSource, stackDest) {
-    // No context allocation, trivial outer scope, easily inlined
-    var result = copy(val, null, stackSource, stackDest);
-    if (isObject(val)) {
-      stackSource.push(val);
-      stackDest.push(result);
-    }
-    destination[key] = result;
-  }
 }
 
 /**
@@ -2345,7 +2341,7 @@ function toDebugString(obj) {
  * - `codeName` – `{string}` – Code name of the release, such as "jiggling-armfat".
  */
 var version = {
-  full: '1.4.1-build.4042+sha.071be60',    // all of these placeholder strings will be replaced by grunt's
+  full: '1.4.1-build.4057+sha.71fc3f4',    // all of these placeholder strings will be replaced by grunt's
   major: 1,    // package task
   minor: 4,
   dot: 1,
@@ -2673,6 +2669,13 @@ function jqLiteAcceptsData(node) {
   // Otherwise we are only interested in elements (1) and documents (9)
   var nodeType = node.nodeType;
   return nodeType === NODE_TYPE_ELEMENT || !nodeType || nodeType === NODE_TYPE_DOCUMENT;
+}
+
+function jqLiteHasData(node) {
+  for (var key in jqCache[node.ng339]) {
+    return true;
+  }
+  return false;
 }
 
 function jqLiteBuildFragment(html, context) {
@@ -3049,7 +3052,8 @@ function getAliasedAttrName(element, name) {
 
 forEach({
   data: jqLiteData,
-  removeData: jqLiteRemoveData
+  removeData: jqLiteRemoveData,
+  hasData: jqLiteHasData
 }, function(fn, name) {
   JQLite[name] = fn;
 });
@@ -5481,7 +5485,7 @@ function Browser(window, document, $log, $sniffer) {
         // Do the assignment again so that those two variables are referentially identical.
         lastHistoryState = cachedState;
       } else {
-        if (!sameBase) {
+        if (!sameBase || reloadLocation) {
           reloadLocation = url;
         }
         if (replace) {
@@ -6487,12 +6491,15 @@ function $TemplateCacheProvider() {
  *   * `controller` - the directive's required controller instance(s) - Instances are shared
  *     among all directives, which allows the directives to use the controllers as a communication
  *     channel. The exact value depends on the directive's `require` property:
+ *       * no controller(s) required: the directive's own controller, or `undefined` if it doesn't have one
  *       * `string`: the controller instance
  *       * `array`: array of controller instances
- *       * no controller(s) required: `undefined`
  *
  *     If a required controller cannot be found, and it is optional, the instance is `null`,
  *     otherwise the {@link error:$compile:ctreq Missing Required Controller} error is thrown.
+ *
+ *     Note that you can also require the directive's own controller - it will be made available like
+ *     like any other controller.
  *
  *   * `transcludeFn` - A transclude linking function pre-bound to the correct transclusion scope.
  *     This is the same as the `$transclude`
@@ -8092,9 +8099,12 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
           for (i in elementControllers) {
             controller = elementControllers[i];
             var controllerResult = controller();
+
             if (controllerResult !== controller.instance) {
+              // If the controller constructor has a return value, overwrite the instance
+              // from setupControllers and update the element data
               controller.instance = controllerResult;
-              $element.data('$' + directive.name + 'Controller', controllerResult);
+              $element.data('$' + i + 'Controller', controllerResult);
               if (controller === controllerForBindings) {
                 // Remove and re-install bindToController bindings
                 thisLinkFn.$$destroyBindings();
@@ -8586,26 +8596,28 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
       var fragment = document.createDocumentFragment();
       fragment.appendChild(firstElementToRemove);
 
-      // Copy over user data (that includes Angular's $scope etc.). Don't copy private
-      // data here because there's no public interface in jQuery to do that and copying over
-      // event listeners (which is the main use of private data) wouldn't work anyway.
-      jqLite(newNode).data(jqLite(firstElementToRemove).data());
+      if (jqLite.hasData(firstElementToRemove)) {
+        // Copy over user data (that includes Angular's $scope etc.). Don't copy private
+        // data here because there's no public interface in jQuery to do that and copying over
+        // event listeners (which is the main use of private data) wouldn't work anyway.
+        jqLite(newNode).data(jqLite(firstElementToRemove).data());
 
-      // Remove data of the replaced element. We cannot just call .remove()
-      // on the element it since that would deallocate scope that is needed
-      // for the new node. Instead, remove the data "manually".
-      if (!jQuery) {
-        delete jqLite.cache[firstElementToRemove[jqLite.expando]];
-      } else {
-        // jQuery 2.x doesn't expose the data storage. Use jQuery.cleanData to clean up after
-        // the replaced element. The cleanData version monkey-patched by Angular would cause
-        // the scope to be trashed and we do need the very same scope to work with the new
-        // element. However, we cannot just cache the non-patched version and use it here as
-        // that would break if another library patches the method after Angular does (one
-        // example is jQuery UI). Instead, set a flag indicating scope destroying should be
-        // skipped this one time.
-        skipDestroyOnNextJQueryCleanData = true;
-        jQuery.cleanData([firstElementToRemove]);
+        // Remove data of the replaced element. We cannot just call .remove()
+        // on the element it since that would deallocate scope that is needed
+        // for the new node. Instead, remove the data "manually".
+        if (!jQuery) {
+          delete jqLite.cache[firstElementToRemove[jqLite.expando]];
+        } else {
+          // jQuery 2.x doesn't expose the data storage. Use jQuery.cleanData to clean up after
+          // the replaced element. The cleanData version monkey-patched by Angular would cause
+          // the scope to be trashed and we do need the very same scope to work with the new
+          // element. However, we cannot just cache the non-patched version and use it here as
+          // that would break if another library patches the method after Angular does (one
+          // example is jQuery UI). Instead, set a flag indicating scope destroying should be
+          // skipped this one time.
+          skipDestroyOnNextJQueryCleanData = true;
+          jQuery.cleanData([firstElementToRemove]);
+        }
       }
 
       for (var k = 1, kk = elementsToRemove.length; k < kk; k++) {
@@ -13250,10 +13262,10 @@ ASTCompiler.prototype = {
               nameId.name = ast.property.name;
             }
           }
-          recursionFn(intoId);
         }, function() {
           self.assign(intoId, 'undefined');
         });
+        recursionFn(intoId);
       }, !!create);
       break;
     case AST.CallExpression:
@@ -13291,8 +13303,10 @@ ASTCompiler.prototype = {
             }
             expression = self.ensureSafeObject(expression);
             self.assign(intoId, expression);
-            recursionFn(intoId);
+          }, function() {
+            self.assign(intoId, 'undefined');
           });
+          recursionFn(intoId);
         });
       }
       break;
@@ -18999,7 +19013,7 @@ function limitToFilter() {
  * @description
  * Orders a specified `array` by the `expression` predicate. It is ordered alphabetically
  * for strings and numerically for numbers. Note: if you notice numbers are not being sorted
- * correctly, make sure they are actually being saved as numbers and not strings.
+ * as expected, make sure they are actually being saved as numbers and not strings.
  *
  * @param {Array} array The array to sort.
  * @param {function(*)|string|Array.<(function(*)|string)>=} expression A predicate to be
@@ -25559,7 +25573,9 @@ function addSetValidityMethod(context) {
 function isObjectEmpty(obj) {
   if (obj) {
     for (var prop in obj) {
-      return false;
+      if (obj.hasOwnProperty(prop)) {
+        return false;
+      }
     }
   }
   return true;

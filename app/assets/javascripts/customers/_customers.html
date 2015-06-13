@@ -2,9 +2,15 @@
 
 <h2>Customers</h2>
 
+<div ng-controller="AlertsCtrl">
+  <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+  <button class='btn btn-default' ng-click="addAlert()">Add Alert</button>
+</div>
+
 <div ng-repeat="customer in customers">
 	<span style="font-size:20px; margin-left:10px;">	
 		 {{customer.contact_name}} at <a ng-href="#/customers/{{customer.id}}">{{customer.company_name}}</a>
+		<a class="btn" ng-click="deleteCustomer(customer)">Delete</a>
 	</span>
 </div>
 

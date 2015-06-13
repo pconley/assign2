@@ -1,6 +1,16 @@
 <h1 class="page-header">TerpSYS</h1>
 
-<h2>Home</h2>
 
-<p ng-show="signedIn()">{{posts.length}} Posts</p>
-<p ng-show="signedIn()">{{customers.length}} Customers</p>
+<div ng-hide="signedIn()">
+	<h2>Public Home</h2>
+</div>
+
+<div ng-show="signedIn()">
+<div class='container-fluid'>
+	<h2>Dashboard</h2>
+	<p>{{posts.length}} Posts</p>
+	<p>{{customers.length}} Customers</p>
+	
+	<div ng-include="'home/_modal.html'"></div>
+	<div ng-include="'calendar/_calendar.html'"></div>
+</div>

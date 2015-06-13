@@ -1,4 +1,4 @@
-angular.module('ngTerpsys', ['ui.router', 'templates', 'Devise'])
+angular.module('ngTerpsys', ['ui.router', 'templates', 'Devise','ui.bootstrap'])
 .config(['$stateProvider','$urlRouterProvider',
 	function($stateProvider, $urlRouterProvider) {
 	  $stateProvider
@@ -6,16 +6,17 @@ angular.module('ngTerpsys', ['ui.router', 'templates', 'Devise'])
 	      url: '/home',
 	      templateUrl: 'home/_home.html',
 	      controller: 'HomeCtrl',
-			// 		  resolve: { // called each time state change to this state
-			// 		    postsPromise: ['postsService', function(postsService){
-			// 		  	  console.log('*** main posts promise')
-			// 		      return postsService.getAll();
-			// 		    }],
-			// loadCustomers: ['customersService', function(custSvc){
-			// 		  	  console.log('*** main custs promise')
-			// 		      return custSvc.getAll();
-			// 		    }]
-			// 		  }
+			resolve: { 
+			  // executed each time state change to this state
+			  loadPosts: ['postsService', function(postsService){
+				console.log('*** main posts load')
+				return postsService.getAll();
+			  }],
+			  loadCustomers: ['customersService', function(custSvc){
+				console.log('*** main custs load')
+				return custSvc.getAll();
+			  }]
+			}
 	    })
 	    .state('posts', {
 	      url: '/posts',
