@@ -15,6 +15,7 @@ gem 'colorize'
 gem 'devise', '~> 3.4.0'
 gem 'factory_girl_rails'
 gem 'faker'
+gem "font-awesome-rails"
 gem 'quiet_assets'
 gem 'responders'
 gem 'sprockets', '2.12.3'

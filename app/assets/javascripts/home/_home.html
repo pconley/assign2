@@ -1,13 +1,13 @@
 <h1 class="page-header">TerpSYS</h1>
 
-
 <div ng-hide="signedIn()">
 	<h2>Public Home</h2>
 </div>
 
 <div ng-show="signedIn()">
 <div class='container-fluid'>
-	<h2>Dashboard</h2>
+	<h2>Dashboard  <span popover="Really? You don't know what a Dashboard is?" popover-trigger="mouseenter" style="font-size:.5em;" class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></h2>
+		
 	<p>{{posts.length}} Posts</p>
 	<p>{{customers.length}} Customers</p>
 	

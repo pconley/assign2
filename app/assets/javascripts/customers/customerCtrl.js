@@ -18,11 +18,12 @@ angular.module('ngTerpsys')
 		  console.log('*** updateCustomer');
 		  customersService.update(currentCustomer);
 		};
-		$scope.deleteCustomer = function(customer){
-		  var index = $scope.customers.indexOf(customer);
-		  console.log('*** deleteCustomer at index ='+index+' ...',customer);
-		  customersService.delete(customer);
-		  //$scope.customers.splice(index, 1);     
+		$scope.deleteCustomer = function(customer){		
+		  if (confirm("Are you sure you want to delete this customer?") == true) {
+		  	var index = $scope.customers.indexOf(customer);
+		  	console.log('*** deleteCustomer at index ='+index+' ...',customer);
+		  	customersService.delete(customer);
+		  }
 		};
 		$scope.removeCustomer = function() {
 	      var dlg = dialogs.confirm('Please Confirm', 'Are you absolutely sure you want to delete?');

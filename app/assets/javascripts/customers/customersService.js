@@ -1,6 +1,6 @@
 angular.module('ngTerpsys')
-.factory('customersService', ['$http',
-	function($http){
+.factory('customersService', ['$http','alertsService',
+	function($http,alertsService){
 	  var o = {
 	    customers: []
 	  };
@@ -23,11 +23,12 @@ angular.module('ngTerpsys')
 		console.log('>>> delete customer #', customer.id);
 	    return $http.delete('/a1/customers/'+customer.id+'.json').success(function(data){
 		  var index = o.customers.indexOf(customer);
-		  o.customers.splice(index, 1);     
+		  o.customers.splice(index, 1);
+	      alertsService.create({msg: 'Customer was deleted!'});
 		  console.log('<<< delete customer at index ='+index+' ...',customer);		
 	    }).error(function(data){
 		  console.log('<<< delete error');
-		  alert('customer delete failed on server');
+	      alertsService.create({msg: 'Customer delete failed on server.'});
 	    });
 	  };
 	  o.update = function(customer) {
