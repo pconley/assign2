@@ -45,6 +45,11 @@ angular.module('ngTerpsys').controller('ModalInstanceCtrl', function ($scope, $m
     $modalInstance.close($scope.selected.item);
   };
 
+  $scope.add = function () {
+	console.log('*** modal ctrl add');
+    $modalInstance.close('add');
+  };
+
   $scope.cancel = function () {
     $modalInstance.dismiss('cancel');
   };

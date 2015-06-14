@@ -2,43 +2,27 @@
 
 <h2>Customers</h2>
 
-<div ng-controller="AlertsCtrl">
-  <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
-  <button class='btn btn-default' ng-click="addAlert('new alert')">Add Alert</button>
-</div>
+<div ng-include="'core/_alerts.html'"></div>
 
-<div ng-repeat="customer in customers">
-	<span style="font-size:20px; margin-left:10px;">	
-		 {{customer.contact_name}} at <a ng-href="#/customers/{{customer.id}}">{{customer.company_name}}</a>
-		<a class="btn" ng-click="deleteCustomer(customer)">Delete</a>
-	</span>
-</div>
+<table class="table table-striped">  <thead>
+    <tr>
+      <th>Requester</th>
+      <th>Jobs</th>
+      <th>Company</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="customer in customers">
+		<td>{{customer.contact_name}}</td>
+		<td>0</td>
+		<td><a ng-href="#/customers/{{customer.id}}">{{customer.company_name}}&nbsp;&nbsp;&nbsp;<i class="fa fa-pencil-square-o"></i></a></td>
+        <td><a class="btn btn-danger" ng-click="deleteCustomer(customer)">
+			<i class="fa fa-trash-o"></i> 
+			<span ng-show='desktop'>Delete</span></a>
+		</td>
+    </tr>
+  </tbody>
+</table>
 
-<form ng-submit="addCustomer()" style="margin-top:30px;">
-    <h3>Add a new customer</h3>
-    <div class="form-group">
-      <input type="text"
-        class="form-control"
-        placeholder="Company Name"
-        ng-model="company_name"></input>
-    </div>
-    <div class="form-group">
-      <input type="text"
-      class="form-control"
-      placeholder="Contact Name"
-      ng-model="contact_name"></input>
-    </div>
-    <div class="form-group">
-      <input type="text"
-      class="form-control"
-      placeholder="Contact Email"
-      ng-model="contact_email"></input>
-    </div>
-    <div class="form-group">
-      <input type="text"
-      class="form-control"
-      placeholder="Contact Phone"
-      ng-model="contact_phone"></input>
-    </div>
-    <button type="submit" class="btn btn-primary">Add Customer</button>
-</form>
+<button class="btn btn-default" ng-click="openAddCustomer()">Open Add Customer Modal</button>
