@@ -12,9 +12,9 @@ angular.module('ngTerpsys', ['ui.router', 'templates', 'Devise','ui.bootstrap','
 				console.log('*** main posts load')
 				return postsService.getAll();
 			  }],
-			  loadCustomers: ['customersService', function(custSvc){
+			  loadCustomers: ['customersService', function(customersService){
 				console.log('*** main custs load')
-				return custSvc.getAll();
+				return customersService.getAll();
 			  }]
 			}
 	    })
@@ -57,7 +57,7 @@ angular.module('ngTerpsys', ['ui.router', 'templates', 'Devise','ui.bootstrap','
 	        Auth.currentUser().then(function(user) {
 	            // User was logged in, or Devise returned
 	            // previously authenticated session.
-	            console.log(user); // => {id: 1, ect: '...'}
+	            console.log('user...',user); // => {id: 1, ect: '...'}
 	        }, function(error) {
 	            // unauthenticated error
 	            $state.go('home');

@@ -1,6 +1,8 @@
 angular.module('ngTerpsys')
 .controller('CustomerCtrl', ['$scope','customersService','currentCustomer','screenSize','$log','$modal',
 	function($scope,customersService,currentCustomer,screenSize,$log,$modal){
+		
+		$scope.error_message = '';
 		$scope.customer = currentCustomer; // see the app.js resolve
 		$scope.customers = customersService.customers;
 		
@@ -19,7 +21,8 @@ angular.module('ngTerpsys')
 			      animation: $scope.animationsEnabled,
 			      templateUrl: 'customers/_addCustomer.html',
 				  controller: 'CustomerModalInstanceCtrl',
-				  size: size,
+				  windowClass: 'my-dialog',
+				  //size: 'sm', // size,
 				  resolve: { items: function () { return $scope.items; } }
 				});
 				modalInstance.result.then(function (selectedItem) {
@@ -30,16 +33,16 @@ angular.module('ngTerpsys')
 				});
 		};
 	  					
-		$scope.addCustomer = function(){
-		  if(!$scope.company_name || $scope.company_name === '') { return; }
-		  console.log('*** addCustomer');
-		  customersService.create({
-		    company_name: $scope.company_name,
-			contact_name: $scope.contact_name
-		  });
-		  $scope.company_name = '';
-		  $scope.contact_name = '';
-		};
+		// $scope.addCustomer = function(){
+		//   if(!$scope.company_name || $scope.company_name === '') { return; }
+		//   console.log('*** addCustomer');
+		//   customersService.create({
+		//     company_name: $scope.company_name,
+		// 	contact_name: $scope.contact_name
+		//   });
+		//   $scope.company_name = '';
+		//   $scope.contact_name = '';
+		// };
 		$scope.updateCustomer = function(){
 		  console.log('*** updateCustomer');
 		  customersService.update(currentCustomer);
@@ -64,20 +67,51 @@ function ($scope, $modalInstance, customersService) {
     $modalInstance.close('ok');
   };
 
+	//   $scope.error = function(messages){
+	// $scope.error_message = messages[0];
+	// console.log('message 0: '+messages[0]);
+	//   };
+
+	$scope.errorMessage = function(name) {
+	  	result = [];
+	    var s = $scope.form[name];
+		if( s == null ){
+			return ''
+		} else {
+	  		angular.forEach(s.$error, function(key, value) {
+	      		result.push(value);
+	  		});
+	  		return result.join(", ");
+		}
+	};
+	
+	$scope.error = function(name) {
+	    var s = $scope.form[name];
+	    return s.$invalid && s.$dirty ? "has-error" : "";
+	};
+
   $scope.add = function () {
 	if(!$scope.company_name || $scope.company_name === '') { return; }
 	console.log('*** addCustomer');
 	customersService.create({
 	    company_name: $scope.company_name,
 		contact_name: $scope.contact_name
-	});
-	$scope.company_name = '';
-	$scope.contact_name = '';
-    $modalInstance.close('add');
+	}, $scope.ok, failure );
   };
 
   $scope.cancel = function () {
     $modalInstance.dismiss('cancel');
   };
+
+  function failure(response) {
+	console.log("<<< failure. response...",response);
+	angular.forEach(response, function(errors, key) {
+	  angular.forEach(errors, function(e) {
+		  console.log('<<< '+key+' '+e);
+	      $scope.form[key].$dirty = true;
+	      $scope.form[key].$setValidity(e, false);
+	  });
+    });
+  }
 
 }]);

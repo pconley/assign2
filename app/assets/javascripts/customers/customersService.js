@@ -13,11 +13,17 @@ angular.module('ngTerpsys')
 		  console.log("Failed to get customers. x...",x);
 		});
 	  };
-	  o.create = function(customer) {
-		console.log('customersService: create. customer...', customer)
-	    return $http.post('/a1/customers.json', customer).success(function(data){
-	      o.customers.push(data);
-	    });
+	  o.create = function(customer, success, failure) {
+		console.log('>>> customersService: create. customer...', customer)
+	    return $http.post('/a1/customers.json', customer)
+			.success(function(data){ 
+				o.customers.push(data); 
+				success(); // callback
+			})
+			.error(function(response){ 
+				console.log('<<< create error. response...',response); 
+				failure(response.errors); // callback
+			});
 	  };
 	  o.delete = function(customer) {
 		console.log('>>> delete customer #', customer.id);
