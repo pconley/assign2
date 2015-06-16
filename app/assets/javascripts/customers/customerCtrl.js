@@ -1,10 +1,28 @@
 angular.module('ngTerpsys')
-.controller('CustomerCtrl', ['$scope','customersService','currentCustomer','screenSize','$log','$modal',
-	function($scope,customersService,currentCustomer,screenSize,$log,$modal){
+.controller('CustomerCtrl', ['$scope','customersService','currentCustomer','screenSize','$log','$modal','$filter',
+	function($scope,customersService,currentCustomer,screenSize,$log,$modal,$filter){
 		
 		$scope.error_message = '';
 		$scope.customer = currentCustomer; // see the app.js resolve
 		$scope.customers = customersService.customers;
+		
+		//****** pagination **********
+		$scope.totalCustomersCount = $scope.customers.length;
+	  	$scope.currentPage = 1;
+		$scope.numPerPage = 3;
+		$scope.$watch("query", function() {
+			//$log.log('query='+$scope.query);
+			$scope.filteredCustomers = $filter('filter')($scope.customers, $scope.query) 
+			$scope.filteredCustomersCount = $scope.filteredCustomers.length;	
+	  	});	    
+		$scope.$watch("currentPage + numPerPage + filteredCustomersCount", function() {
+	    	var begin = (($scope.currentPage - 1) * $scope.numPerPage);
+	    	var end = begin + $scope.numPerPage;
+			//$log.log('page='+$scope.currentPage+' begin:end = '+begin+':'+end);
+	    	$scope.pagedCustomers = $scope.filteredCustomers.slice(begin, end);
+			$scope.pageCount = $scope.filteredCustomersCount / $scope.numPerPage
+	  	});
+		//****** pagination **********		
 		
 		$scope.desktop = screenSize.on('sm, md, lg', function(match){
 		    $scope.desktop = match;
@@ -26,27 +44,18 @@ angular.module('ngTerpsys')
 				  resolve: { items: function () { return $scope.items; } }
 				});
 				modalInstance.result.then(function (selectedItem) {
-					  console.log('*** here');
+					  console.log('*** model instance result. selectedItem...',selectedItem);
 				      //$scope.selected = selectedItem;
 				    }, function () {
 				      $log.info('Modal dismissed at: ' + new Date());
 				});
 		};
-	  					
-		// $scope.addCustomer = function(){
-		//   if(!$scope.company_name || $scope.company_name === '') { return; }
-		//   console.log('*** addCustomer');
-		//   customersService.create({
-		//     company_name: $scope.company_name,
-		// 	contact_name: $scope.contact_name
-		//   });
-		//   $scope.company_name = '';
-		//   $scope.contact_name = '';
-		// };
+					
 		$scope.updateCustomer = function(){
 		  console.log('*** updateCustomer');
 		  customersService.update(currentCustomer);
 		};
+		
 		$scope.deleteCustomer = function(customer){		
 		  if (confirm("Are you sure you want to delete this customer?") == true) {
 		  	var index = $scope.customers.indexOf(customer);
@@ -63,14 +72,9 @@ angular.module('ngTerpsys')
 .controller('CustomerModalInstanceCtrl', ['$scope','$modalInstance','customersService', 
 function ($scope, $modalInstance, customersService) {
 
-  $scope.ok = function () {
-    $modalInstance.close('ok');
-  };
-
-	//   $scope.error = function(messages){
-	// $scope.error_message = messages[0];
-	// console.log('message 0: '+messages[0]);
-	//   };
+	$scope.ok = function () {
+    	$modalInstance.close('ok');
+  	};
 
 	$scope.errorMessage = function(name) {
 	  	result = [];
@@ -89,29 +93,34 @@ function ($scope, $modalInstance, customersService) {
 	    var s = $scope.form[name];
 	    return s.$invalid && s.$dirty ? "has-error" : "";
 	};
+	
+	$scope.cancel = function () {
+    	$modalInstance.dismiss('cancel');
+  	};
 
-  $scope.add = function () {
-	if(!$scope.company_name || $scope.company_name === '') { return; }
-	console.log('*** addCustomer');
-	customersService.create({
-	    company_name: $scope.company_name,
-		contact_name: $scope.contact_name
-	}, $scope.ok, failure );
-  };
+  	$scope.add = function () {
+		if(!$scope.company_name || $scope.company_name === '') { return; }
+		console.log('*** addCustomer');
+		customersService.create({
+	    	company_name: $scope.company_name,
+			contact_name: $scope.contact_name
+		}, $scope.ok, success, failure );
+  	};
 
-  $scope.cancel = function () {
-    $modalInstance.dismiss('cancel');
-  };
+	function success(response){
+		console.log("<<< success. response...",response);
+		$modalInstance.dismiss('success');
+	};
 
-  function failure(response) {
-	console.log("<<< failure. response...",response);
-	angular.forEach(response, function(errors, key) {
-	  angular.forEach(errors, function(e) {
-		  console.log('<<< '+key+' '+e);
-	      $scope.form[key].$dirty = true;
-	      $scope.form[key].$setValidity(e, false);
-	  });
-    });
-  }
+  	function failure(response) {
+		console.log("<<< failure. response...",response);
+		angular.forEach(response, function(errors, key) {
+	  		angular.forEach(errors, function(e) {
+		  		console.log('<<< '+key+' '+e);
+	      		$scope.form[key].$dirty = true;
+	      		$scope.form[key].$setValidity(e, false);
+	  		});
+    	});
+  	};
 
 }]);

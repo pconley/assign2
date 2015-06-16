@@ -1,6 +1,16 @@
 angular.module('ngTerpsys', ['ui.router', 'templates', 'Devise','ui.bootstrap','matchMedia'])
 .config(['$stateProvider','$urlRouterProvider',
 	function($stateProvider, $urlRouterProvider) {
+		
+	    $urlRouterProvider.otherwise('public');
+	  
+		$stateProvider
+			.state('public', {
+				url: '/public',
+				templateUrl: 'public/_home.html',
+				controller: 'PublicCtrl',
+		})
+	
 	  $stateProvider
 	    .state('home', {
 	      url: '/home',
@@ -9,11 +19,11 @@ angular.module('ngTerpsys', ['ui.router', 'templates', 'Devise','ui.bootstrap','
 			resolve: { 
 			  // executed each time state change to this state
 			  loadPosts: ['postsService', function(postsService){
-				console.log('*** main posts load')
+				console.log('*** home: loadPosts')
 				return postsService.getAll();
 			  }],
 			  loadCustomers: ['customersService', function(customersService){
-				console.log('*** main custs load')
+				console.log('*** home: loadCustomers')
 				return customersService.getAll();
 			  }]
 			}
@@ -23,14 +33,11 @@ angular.module('ngTerpsys', ['ui.router', 'templates', 'Devise','ui.bootstrap','
 	      templateUrl: 'posts/_posts.html',
 	      controller: 'PostsCtrl',
 		  resolve: { // called each time state change to this state
-		    postsPromise: ['postsService', function(postsService){
-		  	  console.log('*** posts promise')
+		    loadPosts: ['postsService', function(postsService){
+		  	  console.log('*** posts: loadPosts')
 		      return postsService.getAll();
 		    }],
 			currentPost: [ function(){} ]
-			// ['$stateParams', 'postsService', function($stateParams, posts) {
-			      //return posts.get($stateParams.id);
-			//}]
 		  }
 	    })	
 		.state('post', {
@@ -48,19 +55,22 @@ angular.module('ngTerpsys', ['ui.router', 'templates', 'Devise','ui.bootstrap','
 	      templateUrl: 'customers/_customers.html',
 	      controller: 'CustomerCtrl',
 		  resolve: { // called each time state change to this state
-		    customersPromise: ['customersService', function(customersService){
-		      return customersService.getAll();
+		    loadCustomers: ['customersService', function(customersService){
+				console.log('*** customer: loadCustomers')
+		      	return customersService.getAll();
 		    }],
 			currentCustomer: [ function(){} ]
 		  },
 		  onEnter: ['$state', 'Auth', function($state, Auth) {
+			console.log('*** customers on enter: authenticating user')
 	        Auth.currentUser().then(function(user) {
 	            // User was logged in, or Devise returned
 	            // previously authenticated session.
 	            console.log('user...',user); // => {id: 1, ect: '...'}
 	        }, function(error) {
 	            // unauthenticated error
-	            $state.go('home');
+				console.log("*** un-authenticatd user")
+	            $state.go('public');
 	        });
 	      }]
 	    })
@@ -95,6 +105,5 @@ angular.module('ngTerpsys', ['ui.router', 'templates', 'Devise','ui.bootstrap','
 	        })
 	      }]
 	    });
-	  $urlRouterProvider.otherwise('home');
 	}
 ])

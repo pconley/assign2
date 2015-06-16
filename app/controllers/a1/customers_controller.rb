@@ -6,17 +6,19 @@ class A1::CustomersController < A1::BaseController
 
   def create
     values = customer_params.merge(agency_id: current_user.agency.id)
-    puts "*** customer create with values=#{values}"
+    puts "*** customer create. values=#{values}"
     customer = Customer.create(values)
     if customer.save
-      respond_with(customer)
+      puts "--- save worked. customer=#{customer}"
+      respond_with(:a1,customer)
     else
       render :json => { :errors => customer.errors }, :status => 422
     end
   end
 
   def show
-    respond_with Customer.find(params[:id])
+    customer = Customer.find(params[:id])
+    respond_with(:a1,customer)
   end
 
   def update
