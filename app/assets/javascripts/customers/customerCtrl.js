@@ -4,23 +4,41 @@ angular.module('ngTerpsys')
 		
 		$scope.error_message = '';
 		$scope.customer = currentCustomer; // see the app.js resolve
-		$scope.customers = customersService.customers;
+		$scope.sortedCustomers = customersService.customers;
+		$scope.totalCustomersCount = $scope.sortedCustomers.length;
 		
-		//****** pagination **********
-		$scope.totalCustomersCount = $scope.customers.length;
+		//****** sort, filter and paging **********
+		$scope.sortType = '';
+		$scope.sortCount = 0;
+		$scope.sortReverse = false;
+		$scope.setOrder = function(type) {
+        	$scope.sortReverse = ($scope.sortType === type) ? !$scope.sortReverse : false;
+        	$scope.sortType = type;
+			//console.log('setOrder: '+$scope.sortType+' : '+$scope.sortReverse);
+      	};
+		$scope.$watch("sortType + sortReverse", function() {
+			//console.log('sorting: '+$scope.sortType+' : '+$scope.sortReverse);
+			var orderBy = $filter('orderBy');			
+			$scope.sortedCustomers = orderBy($scope.sortedCustomers, $scope.sortType, $scope.sortReverse)
+			$scope.sortCount += 1; // indicated a sort change occured
+	  	});
+		$scope.query = '';
+		$scope.filterCount = true
+		$scope.$watch("query + sortCount", function() {
+			//console.log('filtering: '+$scope.query);
+			$scope.filteredCustomers = $filter('filter')($scope.sortedCustomers, $scope.query) 
+			$scope.filteredCustomersCount = $scope.filteredCustomers.length
+			$scope.filterCount += 1; // indicates a filter change occured
+			
+	  	});	 
 	  	$scope.currentPage = 1;
-		$scope.numPerPage = 3;
-		$scope.$watch("query", function() {
-			//$log.log('query='+$scope.query);
-			$scope.filteredCustomers = $filter('filter')($scope.customers, $scope.query) 
-			$scope.filteredCustomersCount = $scope.filteredCustomers.length;	
-	  	});	    
-		$scope.$watch("currentPage + numPerPage + filteredCustomersCount", function() {
+		$scope.numPerPage  = 3;   
+		$scope.$watch("currentPage + numPerPage + filterCount", function() {
+			//console.log('paging: '+$scope.currentPage);
 	    	var begin = (($scope.currentPage - 1) * $scope.numPerPage);
 	    	var end = begin + $scope.numPerPage;
-			//$log.log('page='+$scope.currentPage+' begin:end = '+begin+':'+end);
 	    	$scope.pagedCustomers = $scope.filteredCustomers.slice(begin, end);
-			$scope.pageCount = $scope.filteredCustomersCount / $scope.numPerPage
+			$scope.pageCount = $scope.filteredCustomers.length / $scope.numPerPage
 	  	});
 		//****** pagination **********		
 		
