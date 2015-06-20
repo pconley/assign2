@@ -3,3 +3,27 @@
 	max-width: 400px;
 	top: 40%;
 }
+
+.pagination {
+	margin: 0px;
+}
+
+.search {
+	margin-top: 8px;
+}
+
+.xager {
+	margin-top: 3px;
+}
+
+
+.search-bar {
+	background-color: lightgray;
+	padding: 5px;
+}
+
+
+.debug {
+    border-style: solid;
+    border-color: #ff0000 #0000ff;
+}

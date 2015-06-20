@@ -4,8 +4,8 @@ angular.module('ngTerpsys')
 		
 		$scope.error_message = '';
 		$scope.customer = currentCustomer; // see the app.js resolve
-		$scope.sortedCustomers = customersService.customers;
-		$scope.totalCustomersCount = $scope.sortedCustomers.length;
+		$scope.customers = customersService.customers;
+		$scope.totalCustomersCount = $scope.customers.length;
 		
 		//****** sort, filter and paging **********
 		$scope.sortType = '';
@@ -14,22 +14,21 @@ angular.module('ngTerpsys')
 		$scope.setOrder = function(type) {
         	$scope.sortReverse = ($scope.sortType === type) ? !$scope.sortReverse : false;
         	$scope.sortType = type;
-			//console.log('setOrder: '+$scope.sortType+' : '+$scope.sortReverse);
       	};
 		$scope.$watch("sortType + sortReverse", function() {
 			//console.log('sorting: '+$scope.sortType+' : '+$scope.sortReverse);
 			var orderBy = $filter('orderBy');			
-			$scope.sortedCustomers = orderBy($scope.sortedCustomers, $scope.sortType, $scope.sortReverse)
+			$scope.customers = orderBy($scope.customers, $scope.sortType, $scope.sortReverse)
 			$scope.sortCount += 1; // indicated a sort change occured
 	  	});
 		$scope.query = '';
 		$scope.filterCount = true
 		$scope.$watch("query + sortCount", function() {
 			//console.log('filtering: '+$scope.query);
-			$scope.filteredCustomers = $filter('filter')($scope.sortedCustomers, $scope.query) 
+			var filter = $filter('filter');			
+			$scope.filteredCustomers = filter($scope.customers, $scope.searchFilter) 
 			$scope.filteredCustomersCount = $scope.filteredCustomers.length
 			$scope.filterCount += 1; // indicates a filter change occured
-			
 	  	});	 
 	  	$scope.currentPage = 1;
 		$scope.numPerPage  = 3;   
@@ -40,6 +39,12 @@ angular.module('ngTerpsys')
 	    	$scope.pagedCustomers = $scope.filteredCustomers.slice(begin, end);
 			$scope.pageCount = $scope.filteredCustomers.length / $scope.numPerPage
 	  	});
+		$scope.searchFilter = function (obj) {
+			// function used to limit the filter to specific fields
+			if( $scope.query === '' ) return true
+		    var re = new RegExp($scope.query, 'i');
+		    return re.test(obj.company_name) || re.test(obj.contact_name);
+		};
 		//****** pagination **********		
 		
 		$scope.desktop = screenSize.on('sm, md, lg', function(match){
