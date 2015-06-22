@@ -1,8 +1,9 @@
 angular.module('ngTerpsys')
-.controller('AuthCtrl', ['$scope','$state','Auth',
-	function($scope, $state, Auth){
+.controller('AuthCtrl', ['$scope','$state','Auth','toastr',
+	function($scope, $state, Auth, toastr){
 	  $scope.login = function() {
 	    Auth.login($scope.user).then(function(){
+		  toastr.success('Login worked.','Authentication', {closeButton: true});
 	      $state.go('home');
 	    });
 	  };

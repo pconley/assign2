@@ -1,6 +1,6 @@
 angular.module('ngTerpsys')
-.factory('customersService', ['$http','alertsService',
-	function($http,alertsService){
+.factory('customersService', ['$http','alertsService','toastr',
+	function($http, alertsService, toastr){
 	  var o = {
 	    customers: []
 	  };
@@ -21,7 +21,7 @@ angular.module('ngTerpsys')
 				success(); // callback
 			})
 			.error(function(response){ 
-				console.log('<<< create error. response...',response); 
+				console.log('<<< create error. response...',response); 			  
 				failure(response.errors); // callback
 			});
 	  };
@@ -30,11 +30,13 @@ angular.module('ngTerpsys')
 	    return $http.delete('/a1/customers/'+customer.id+'.json').success(function(data){
 		  var index = o.customers.indexOf(customer);
 		  o.customers.splice(index, 1);
-	      alertsService.create({msg: 'Customer was deleted!'});
+	      //alertsService.create({msg: 'Customer was deleted!'});
+		  toastr.success('Delete worked.','Customers', {closeButton: true});
 		  console.log('<<< delete customer at index ='+index+' ...',customer);		
 	    }).error(function(data){
 		  console.log('<<< delete error');
-	      alertsService.create({msg: 'Customer delete failed on server.'});
+	      //alertsService.create({msg: 'Customer delete failed on server.'});
+		  toastr.error('Delete failed on server.','Customers', {closeButton: true});
 	    });
 	  };
 	  o.update = function(customer) {
@@ -42,6 +44,7 @@ angular.module('ngTerpsys')
 	    return $http.put('/a1/customers/'+customer.id+'.json', customer).success(function(data){
 		  // Note that rails return 204 (no data) on a put so the record in not returned
 		  // you must do a subsequent get if you expect that other fields had ripple change
+		  toastr.success('Update worked.','Customers', {closeButton: true});
 		  console.log('--- update success');
 	    });
 	  };

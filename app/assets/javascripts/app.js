@@ -1,4 +1,4 @@
-angular.module('ngTerpsys', ['ui.router', 'templates', 'Devise','ui.bootstrap','matchMedia'])
+angular.module('ngTerpsys', ['ui.router', 'templates', 'Devise','ui.bootstrap','matchMedia','ngAnimate', 'toastr'])
 .config(['$stateProvider','$urlRouterProvider',
 	function($stateProvider, $urlRouterProvider) {
 		
