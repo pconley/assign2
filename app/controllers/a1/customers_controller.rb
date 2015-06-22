@@ -1,16 +1,22 @@
 class A1::CustomersController < A1::BaseController
   
   def index
-    respond_with current_user.agency.customers.to_a
+    trace "*** customer index. params=#{params}"
+    trace "--- current_user   = #{current_user}"
+    trace "--- current_agency = #{current_agency}"
+    customers = current_agency.customers.to_a
+    trace "--- customers = #{customers}"
+    respond_with filter(customers)
   end
 
   def create
     values = customer_params.merge(agency_id: current_user.agency.id)
-    puts "*** customer create. values=#{values}"
+    trace "*** customer create. params=#{params} values=#{values}"
     customer = Customer.create(values)
     if customer.save
-      puts "--- save worked. customer=#{customer}"
-      respond_with(:a1,customer)
+      trace "--- save worked. customer=#{filter(customer)}"
+      # respond_with(filter(customer))
+      render :json => filter(customer), :status => 200
     else
       render :json => { :errors => customer.errors }, :status => 422
     end
@@ -18,27 +24,38 @@ class A1::CustomersController < A1::BaseController
 
   def show
     customer = Customer.find(params[:id])
-    respond_with(:a1,customer)
+    trace "*** customer#show: customer=#{filter(customer)}"
+    respond_with(filter(customer))
   end
 
   def update
-    puts "*** customer update. customer_params=#{customer_params}"
+    trace "*** customer update. customer_params=#{customer_params}"
     customer = Customer.find(params[:id])
-    customer.update!(customer_params)
-    respond_with(:a1,customer)
+    customer.update(customer_params)
+    if customer.save
+      trace "--- save worked. customer=#{filter(customer)}"
+      render :json => filter(customer), :status => 200
+    else
+      render :json => { :errors => customer.errors }, :status => 422
+    end    
   end
   
   def destroy
-    puts "*** customer destroy. id=#{params[:id]}"
+    trace "*** customer destroy. id=#{params[:id]}"
     customer = Customer.find(params[:id])
     customer.destroy!
-    respond_with(:a1,customer)
+    render :json => filter(customer), :status => 200
   end
 
   private
   
+  def filter_attribs(customer)
+    # this method is called by the api_controller::filter in the respond to control which attributes are returned
+    customer.slice("id","company_name","contact_name","contact_email","contact_phone","billing_email","billing_rate")      
+  end  
+  
   def customer_params
-    params.require(:customer).permit(:company_name, :contact_name, :contact_email, :contact_phone)
+    params.require(:customer).permit(:company_name, :contact_name, :contact_email, :contact_phone, :billing_email, :billing_rate)
   end  
   
 end

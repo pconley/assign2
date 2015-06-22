@@ -10,14 +10,14 @@ class Agency < ActiveRecord::Base
     "<Agency#{id} #{agency_name}>"
   end
    
-  # def admins
-  #   users.with_role(:admin)
-  # end
+  def admins
+    users.with_role(:admin)
+  end
   # def consumers
   #   users.with_role(:consumer)
   # end
-  # def interpreters
-  #   users.with_role(:interpreter)
-  # end
+  def interpreters
+    users.with_role(:interpreter)
+  end
     
 end

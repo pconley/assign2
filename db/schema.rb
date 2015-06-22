@@ -76,6 +76,14 @@ ActiveRecord::Schema.define(version: 20150609104624) do
     t.string   "username"
     t.string   "role"
     t.integer  "agency_id"
+    t.integer  "default_payrate"
+    t.string   "last_name"
+    t.string   "first_name"
+    t.string   "middle_name"
+    t.string   "title"
+    t.string   "prefix"
+    t.string   "suffix"
+    t.string   "gender"
   end
 
   add_index "users", ["agency_id"], name: "index_users_on_agency_id"

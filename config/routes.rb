@@ -6,10 +6,11 @@ Rails.application.routes.draw do
   
   namespace :a1 do
     get 'dashboard' => 'dashboard#show'
-    resources :customers
+    resources :admins
+    resources :customers, except: [:new, :edit]
+    resources :interpreters
   end
   
-
   resources :posts, only: [:create, :index, :show] do
       resources :comments, only: [:show, :create] do
         member do

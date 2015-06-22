@@ -20,8 +20,7 @@ namespace :db do
       params.delete(:code)
       agency = Agency.create(params)
       puts "Created: #{agency}".blue
-      people = [
-        {name: 'pat', role: :admin},{name: 'dan', role: :admin},{name: 'admin', role: :admin}]
+      people = [{name: 'pat', role: :admin},{name: 'dan', role: :admin},{name: 'admin', role: :admin}]
       people.each do |set|
         name = set[:name]
         role = set[:role]
@@ -29,18 +28,18 @@ namespace :db do
         puts "-- #{x}"
       end
       
-     for i in 0..5 # customers
+      for i in 0..5 # customers
          x = FactoryGirl.create(:customer, agency: agency)
          puts "-- #{x}"
          # for j in 0..2
          #   r = x.requesters << FactoryGirl.create(:user, agency: agency, roles: [:requestor])
          #   puts "---- requestor: #{r}"
          # end
-      end
-    #   for i in 0..5 # interpreters
-    #      x = FactoryGirl.create(:interpreter, agency: agency)
-    #      puts "-- interpreter: #{x} #{x.phones.first}"
-    #   end
+       end
+       for i in 0..5 # interpreters
+         x = FactoryGirl.create(:interpreter, agency: agency)
+         puts "-- #{x}"
+       end
     #   for i in 0..9 # consumers
     #      x = FactoryGirl.create(:consumer, agency: agency)
     #      puts "-- consumer: #{x} #{x.address}"
@@ -57,9 +56,9 @@ namespace :db do
     Agency.all.each do |agency|
       puts "#{agency.agency_name}".blue
       puts "#{agency.customers.count} customers"
-      # puts "#{agency.interpreters.count} interpreters"
+      puts "#{agency.interpreters.count} interpreters"
       # puts "#{agency.consumers.count} consumers"
-      # puts "#{agency.admins.count} admins"
+      puts "#{agency.admins.count} admins"
       puts "#{agency.users.count} agency users"
       # puts "#{agency.jobs.count} agency jobs"
       # puts "\n"  

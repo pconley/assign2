@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
            
   belongs_to :agency
   
+  scope :with_role, ->(role) { where(role: role) }  
+  
   def interpreter?
     role == 'interpreter'
   end
@@ -19,8 +21,9 @@ class User < ActiveRecord::Base
     role == 'admin'
   end
   
-  def to_s
-    "<User#{id} #{role} #{email}>"
+  def to_s 
+    label = role ? role.capitalize : 'User'
+    "<#{label}#{id} #{email}>"
   end
   
 end
