@@ -1,0 +1,110 @@
+<div class="navbar-default sidebar" role="navigation" ng-controller="NavCtrl" >
+    <div class="sidebar-nav navbar-collapse">
+        <ul class="nav" id="side-menu">
+            <li class="sidebar-search">
+                <div class="input-group custom-search-form">
+                    <input type="text" class="form-control" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </span>
+                </div>
+            </li>
+            <li><a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a></li>         
+            <li> <!-- Reports Menu Item -->
+                <a ng-click="toggle('reports')" ng-init="active['reports'] = false" >
+					<i class="fa fa-files-o fa-fw"></i> Reports
+					<span ng-hide="active['reports']" class="fa fa-plus-square arrow"></span>
+					<span ng-show="active['reports']" class="fa fa-minus-square arrow"></span>
+				</a>
+                <ul ng-show="active['reports']" class="nav nav-second-level">
+				    <li><a href="#">Monthly Income</a></li>
+				    <li><a href="#">Monthly Payroll</a></li>
+				    <li><a href="#">Diversity</a></li>
+				    <li><a href="#">Coverage</a></li>
+                </ul>
+            </li>
+            <li> <!-- People Menu Item -->
+                <a ng-click="toggle('users')" ng-init="active['users'] = false" >
+					<i class="fa fa-user fa-fw"></i> Users
+					<span ng-hide="active['users']" class="fa fa-plus-square arrow"></span>
+					<span ng-show="active['users']" class="fa fa-minus-square arrow"></span>
+				</a>
+                <ul ng-show="active['users']" class="nav nav-second-level">
+				    <li><a href="#">Interpreters</a></li>
+				    <li><a href="#">Customers</a></li>
+				    <li><a href="#">Clients</a></li>
+				    <li><a href="#">Admins</a></li>
+                </ul>
+            </li>
+            <li> <!-- Tables Menu Item -->
+                <a ng-click="toggle('tables')" ng-init="active['tables'] = false" >
+					<i class="fa fa-table fa-fw"></i> Tables
+					<span ng-hide="active['tables']" class="fa fa-plus-square arrow"></span>
+					<span ng-show="active['tables']" class="fa fa-minus-square arrow"></span>
+				</a>
+                <ul ng-show="active['tables']" class="nav nav-second-level">
+				    <li><a href="#">Job Genres</a></li>
+				    <li><a href="#">Holidays</a></li>
+				    <li><a href="#">Colors</a></li>
+				    <li><a href="#">More... </a></li>
+                </ul>
+            </li>
+			<li> <!-- Jobs Menu Item -->
+				<a href="#"><i class="fa fa-edit fa-fw"></i> Jobs</a> 
+			</li>
+            <li> <!-- Elements Menu Item -->
+                <a ng-click="toggle('elements')" ng-init="active['elements'] = false" >
+					<i class="fa fa-wrench fa-fw"></i> UI Elements
+					<span ng-hide="active['elements']" class="fa fa-plus-square arrow"></span>
+					<span ng-show="active['elements']" class="fa fa-minus-square arrow"></span>
+				</a>
+                <ul  ng-show="active['elements']" class="nav nav-second-level">
+                    <li> <a href="#">Panels and Wells</a> </li>
+                    <li> <a href="#">Buttons</a> </li>
+                    <li> <a href="#">Notifications</a> </li>
+                    <li> <a href="#">Typography</a> </li> 
+					<li> <a href="#"> Icons</a> </li> 
+					<li> <a href="#">Grid</a> </li>
+                </ul>
+            </li>
+            <li> <!-- Multi-Level Menu Item -->
+                <a ng-click="toggle('multi')" ng-init="active['multi'] = false" >
+					<i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown
+					<span ng-hide="active['multi']" class="fa fa-plus-square arrow"></span>
+					<span ng-show="active['multi']" class="fa fa-minus-square arrow"></span>
+				</a>
+                <ul ng-show="active['multi']" class="nav nav-second-level">
+                    <li> <a href="#">Second Level Item</a> </li> 
+					<li> <a href="#">Second Level Item</a> </li>
+					<li> <!-- Third Level Menu Item -->
+						<a ng-click="show3a = !show3a" ng-init="show3a=false">
+							Third Level
+							<span ng-hide='show3a' class="fa fa-plus-square-o arrow"></span>
+							<span ng-show='show3a' class="fa fa-minus-square-o arrow"></span>
+						</a>
+                        <ul ng-show='show3a' class="nav nav-third-level">
+                            <li> <a href="#">Third Level Item</a> </li> 
+							<li> <a href="#">Third Level Item</a> </li> 
+							<li> <a href="#">Third Level Item</a> </li> 
+							<li> <a href="#">Third Level Item</a> </li>
+						</ul>
+                    </li>
+                </ul>
+            </li>
+            <li> <!-- Download Menu Item -->
+                <a ng-click="toggle('download')" ng-init="active['download'] = false" >
+					<i class="fa fa-cloud-download fa-fw"></i> Downloads
+					<span ng-hide="active['download']" class="fa fa-plus-square arrow"></span>
+					<span ng-show="active['download']" class="fa fa-minus-square arrow"></span>
+				</a>
+                <ul  ng-show="active['download']" class="nav nav-second-level">
+                    <li> <a href="#">Music</a> </li>
+                    <li> <a href="#">Pictures</a> </li>
+                    <li> <a href="#">Data Files</a> </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>

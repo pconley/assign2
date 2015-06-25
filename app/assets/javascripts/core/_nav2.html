@@ -1,0 +1,103 @@
+<nav class="navbar navbar-default" role="navigation" ng-controller="NavCtrl">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" ng-click="navbarCollapsed = !navbarCollapsed">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">TerpSYS</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" collapse="navbarCollapsed">
+      <ul class="nav navbar-nav">	
+	    <li class="btn-group" dropdown is-open="status.isopen1">
+	      <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+	        Schedule <span class="caret"></span>
+	      </button>
+	      <ul class="dropdown-menu" role="menu">
+		    <li><a href="#">Today + (default)</a></li>
+		    <li><a href="#">Un-Assigned Jobs</a></li>
+		    <li><a href="#">Select Date </a></li>
+		    <li><a href="#">Archived Jobs (old) </a></li>
+		    <li role="separator" class="divider"></li>
+		    <li><a href="#">Sort</a></li>
+		    <li><a href="#">Set Filter</a></li>
+	      </ul>
+	    </li>		
+	    <li class="btn-group" dropdown is-open="status.isopen2">
+	      <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+	        Payroll <span class="caret"></span>
+	      </button>
+	      <ul class="dropdown-menu" role="menu">
+		    <li><a href="#">Edit Jobs for Payroll</a></li>
+		    <li><a href="#">Run Batch  Payroll</a></li>
+		    <li><a href="#">Single Interpreter</a></li>
+		    <li role="separator" class="divider"></li>
+		    <li><a href="#">More... </a></li>
+	      </ul>
+	    </li>
+	    <li class="btn-group" dropdown is-open="status.isopen3">
+	      <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+	        Invoicing <span class="caret"></span>
+	      </button>
+	      <ul class="dropdown-menu" role="menu">
+		    <li><a href="#">Edit Jobs for Invoicing</a></li>
+		    <li><a href="#">Generate Batch Invoices</a></li>
+		    <li><a href="#">Generate Single Invoice</a></li>
+		    <li role="separator" class="divider"></li>
+		    <li><a href="#">Unpaid Invoices</a></li>
+	      </ul>
+	    </li>
+	    <li class="btn-group" dropdown is-open="status.isopen4">
+	      <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+	        Reports <span class="caret"></span>
+	      </button>
+	      <ul class="dropdown-menu" role="menu">
+		    <li><a href="#">Statisics 2</a></li>
+		    <li><a href="#">Statisics 1</a></li>
+		    <li role="separator" class="divider"></li>
+		    <li><a href="#">More... </a></li>
+	      </ul>
+	    </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+	  	
+	    <li class="dropdown" dropdown is-open="status.isopen5">
+          <a href="#" class="dropdown-toggle" dropdown-toggle role="button" aria-haspopup="true" aria-expanded="false">Database <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+		    <li><a href="#">Customers</a></li>
+		    <li><a href="#">Interpreters</a></li>
+		    <li><a href="#">Clients</a></li>
+		    <li><a href="#">Admin Users</a></li>
+		    <li role="separator" class="divider"></li>
+		    <li><a href="#">Job Genres</a></li>
+		    <li><a href="#">Ref Table1</a></li>
+		    <li><a href="#">Ref Table2</a></li>
+		    <li role="separator" class="divider"></li>
+		    <li><a href="#">More... </a></li>
+         </ul>
+        </li>
+	
+	    <li class="dropdown" dropdown is-open="status.isopen6">
+          <a href="#" class="dropdown-toggle" dropdown-toggle role="button" aria-haspopup="true" aria-expanded="false">Utilities <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+		    <li><a href="#">Download Schedule</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li>
+
+	    <li ng-show="signedIn()"><a href="#/">{{ user.email }}</a></li>
+	    <li ng-show="signedIn()"><a ng-click="logout()">Log Out</a></li>
+	    <li ng-show="signedIn()"><a href="#/customers">Customers</a></li>
+	    <li ng-hide="signedIn()"><a href="#/login">Log In</a></li>	
+      </ul>
+    </div>
+</nav>
