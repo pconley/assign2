@@ -57,21 +57,32 @@ angular.module('ngTerpsys')
 		$scope.animationsEnabled = true;
 
 	  	$scope.openAddCustomer = function (size) {
-		  console.log('*** openAddCustomer. size='+size);
-			    var modalInstance = $modal.open({
-			      animation: $scope.animationsEnabled,
+			console.log('*** openAddCustomer. size='+size);
+			var modalInstance = $modal.open({
+			      //animation: false, //$scope.animationsEnabled,
 			      templateUrl: 'customers/_addCustomer.html',
 				  controller: 'CustomerModalInstanceCtrl',
-				  windowClass: 'my-dialog',
+				  //windowClass: 'my-dialog',
 				  //size: 'sm', // size,
-				  resolve: { items: function () { return $scope.items; } }
-				});
-				modalInstance.result.then(function (selectedItem) {
-					  console.log('*** model instance result. selectedItem...',selectedItem);
-				      //$scope.selected = selectedItem;
-				    }, function () {
-				      $log.info('Modal dismissed at: ' + new Date());
-				});
+				//windowClass: 'vertical-center',
+	            //backdrop: true,
+	            animate: true,
+				//resolve: { items: function () { return $scope.items; } }
+			});
+			
+			console.log('--- modal instance...',modalInstance);
+			
+			modalInstance.result.then(
+				function (returnValue) {
+					console.log('*** modal instance promise. returned...',returnValue);
+					//$('#your-modal-id').modal('hide');
+					//$('body').removeClass('modal-open');
+					//$('.modal-backdrop').remove();
+					true;
+				}, function (returnValue) {
+					console.log('*** modal instance promise2. returned...',returnValue);
+				    console.log('*** modal instance promise2. dismissed at: ' + new Date());
+			});
 		};
 					
 		$scope.updateCustomer = function(){

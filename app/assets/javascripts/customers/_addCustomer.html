@@ -12,8 +12,7 @@
 			<span class="help-block"
 		      	ng-show="form.company_name.$invalid && form.company_name.$dirty">
 		      	company name {{errorMessage('company_name')}}</span>
-		</div>
-		
+		</div>	
 		<div class="form-group" ng-class="error('contact_name')">
 			<label class="control-label">Contact Name</label>
 			<input type="text" name="contact_name"
@@ -23,8 +22,7 @@
 			<span class="help-block"
 		      	ng-show="form.contact_name.$invalid && form.contact_name.$dirty">
 		      	&nbsp;&nbsp;contact name {{errorMessage('contact_name')}}</span>
-		</div>
-		
+		</div>	
 		<div class="form-group">
 			<label>Contact Email</label>
 			<input type="text"
@@ -45,8 +43,9 @@
 			    ng-show="form.contact_phone.$invalid && form.contact_phone.$dirty">
 			    contact phone {{errorMessage('contact_phone')}}</span>	
 		</div>
-		<button type="submit" class="btn btn-primary">Add Customer</button>
-		<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+		<button ng-click="ok()" type="button" class="btn btn-default">Ok</button>
+		<button ng-click="add()" type="button" class="btn btn-primary">Add Customer</button>
+		<button ng-click="cancel()" type="button" class="btn btn-warning">Cancel</button>
 	</form>
 </div>
 <div class="modal-footer">{{error_message}}</div>

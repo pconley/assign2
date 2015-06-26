@@ -1,7 +1,11 @@
 <div class="navbar-default sidebar" role="navigation" ng-controller="NavCtrl" >
     <div class="sidebar-nav navbar-collapse">
         <ul class="nav" id="side-menu">
-            <li class="sidebar-search">
+
+            <li> <!-- Dashboard Menu Item -->
+				<a href="#/home"><i class="fa fa-dashboard fa-fw"></i> Admin Dashboard</a>
+			</li>  
+			<li class="sidebar-search">
                 <div class="input-group custom-search-form">
                     <input type="text" class="form-control" placeholder="Search...">
                     <span class="input-group-btn">
@@ -11,7 +15,26 @@
                 </span>
                 </div>
             </li>
-            <li><a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a></li>         
+			<li> <!-- Jobs Menu Item -->
+				<a ng-click="toggle('jobs')" ng-init="active['jobs'] = false" >
+					<i class="fa fa-calendar fa-fw"></i> Jobs Calendar
+					<span ng-hide="active['jobs']" class="fa fa-plus-square arrow"></span>
+					<span ng-show="active['jobs']" class="fa fa-minus-square arrow"></span>
+				</a>
+				<div ng-show="active['jobs']" 
+						class="nav nav-second-level well well-sm" 
+						style="min-height:290px;">
+			    	<datepicker ng-model="dt" min-date="minDate" show-weeks="false"
+						custom-class="getDayClass(date, mode)">
+					</datepicker>
+					<br>
+			    	<button type="button" class="btn btn-sm btn-info" ng-click="today()">Today</button>
+			    	<button type="button" class="btn btn-sm btn-danger" ng-click="clear()">Clear</button>
+					<em>{{dt | date:'fullDate' }}</em>
+				</div>
+
+			</li>
+			       
             <li> <!-- Reports Menu Item -->
                 <a ng-click="toggle('reports')" ng-init="active['reports'] = false" >
 					<i class="fa fa-files-o fa-fw"></i> Reports
@@ -51,9 +74,6 @@
 				    <li><a href="#">More... </a></li>
                 </ul>
             </li>
-			<li> <!-- Jobs Menu Item -->
-				<a href="#"><i class="fa fa-edit fa-fw"></i> Jobs</a> 
-			</li>
             <li> <!-- Elements Menu Item -->
                 <a ng-click="toggle('elements')" ng-init="active['elements'] = false" >
 					<i class="fa fa-wrench fa-fw"></i> UI Elements

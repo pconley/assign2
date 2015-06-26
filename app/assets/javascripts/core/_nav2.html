@@ -13,7 +13,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" collapse="navbarCollapsed">
       <ul class="nav navbar-nav">	
-	    <li class="btn-group" dropdown is-open="status.isopen1">
+	    <li class="btn-group" ng-show="signedIn()" dropdown is-open="status.isopen1">
 	      <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled">
 	        Schedule <span class="caret"></span>
 	      </button>
@@ -27,7 +27,7 @@
 		    <li><a href="#">Set Filter</a></li>
 	      </ul>
 	    </li>		
-	    <li class="btn-group" dropdown is-open="status.isopen2">
+	    <li class="btn-group" ng-show="signedIn()" dropdown is-open="status.isopen2">
 	      <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled">
 	        Payroll <span class="caret"></span>
 	      </button>
@@ -39,7 +39,7 @@
 		    <li><a href="#">More... </a></li>
 	      </ul>
 	    </li>
-	    <li class="btn-group" dropdown is-open="status.isopen3">
+	    <li class="btn-group" ng-show="signedIn()" dropdown is-open="status.isopen3">
 	      <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled">
 	        Invoicing <span class="caret"></span>
 	      </button>
@@ -51,7 +51,7 @@
 		    <li><a href="#">Unpaid Invoices</a></li>
 	      </ul>
 	    </li>
-	    <li class="btn-group" dropdown is-open="status.isopen4">
+	    <li class="btn-group" ng-show="signedIn()" dropdown is-open="status.isopen4">
 	      <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled">
 	        Reports <span class="caret"></span>
 	      </button>
@@ -63,9 +63,8 @@
 	      </ul>
 	    </li>
       </ul>
-      <ul class="nav navbar-nav navbar-right">
-	  	
-	    <li class="dropdown" dropdown is-open="status.isopen5">
+      <ul class="nav navbar-nav navbar-right">	  	
+	    <li ng-show="signedIn()" class="dropdown" dropdown is-open="status.isopen5">
           <a href="#" class="dropdown-toggle" dropdown-toggle role="button" aria-haspopup="true" aria-expanded="false">Database <span class="caret"></span></a>
           <ul class="dropdown-menu">
 		    <li><a href="#">Customers</a></li>
@@ -79,9 +78,8 @@
 		    <li role="separator" class="divider"></li>
 		    <li><a href="#">More... </a></li>
          </ul>
-        </li>
-	
-	    <li class="dropdown" dropdown is-open="status.isopen6">
+        </li>	
+	    <li ng-show="signedIn()" class="dropdown" dropdown is-open="status.isopen6">
           <a href="#" class="dropdown-toggle" dropdown-toggle role="button" aria-haspopup="true" aria-expanded="false">Utilities <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#">Action</a></li>
@@ -94,9 +92,10 @@
           </ul>
         </li>
 
+	    <li ng-show="signedIn()"><a href="#/customers">Customers</a></li>
 	    <li ng-show="signedIn()"><a href="#/">{{ user.email }}</a></li>
 	    <li ng-show="signedIn()"><a ng-click="logout()">Log Out</a></li>
-	    <li ng-show="signedIn()"><a href="#/customers">Customers</a></li>
+	
 	    <li ng-hide="signedIn()"><a href="#/login">Log In</a></li>	
       </ul>
     </div>

@@ -12,21 +12,12 @@
 </style>
 
 <div ng-controller="CalendarCtrl">
-	    <pre></pre>
+	    <pre><em>{{dt | date:'fullDate' }}</em></pre>
 
 	    <h4>Inline</h4>
-	    <div class="well well-sm" style="display:inline-block; min-height:290px;">
-	    	<datepicker ng-model="dt" min-date="minDate" 
-				custom-class="getDayClass(date, mode)">
-			</datepicker>
-			<br>
-	    	<button type="button" class="btn btn-sm btn-info" ng-click="today()">Today</button>
-	    	<button type="button" class="btn btn-sm btn-danger" ng-click="clear()">Clear</button>
-			<em>{{dt | date:'fullDate' }}</em>
-		</div>
-    
-	    <hr />
-	
+	    <div style="display:inline-block; min-height:290px;">
+	      <datepicker ng-model="dt" min-date="minDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></datepicker>
+	    </div>
 
 	    <h4>Popup</h4>
 	    <div class="row">
@@ -48,6 +39,15 @@
 	            </p>
 	        </div>
 	    </div>
+	    <div class="row">
+	        <div class="col-sm-6">
+	            <label>Format:</label> <select class="form-control" ng-model="format" ng-options="f for f in formats"><option></option></select>
+	        </div>
+	    </div>
 
-
+	    <hr />
+	    <button type="button" class="btn btn-sm btn-info" ng-click="today()">Today</button>
+	    <button type="button" class="btn btn-sm btn-default" ng-click="dt = '2009-08-24'">2009-08-24</button>
+	    <button type="button" class="btn btn-sm btn-danger" ng-click="clear()">Clear</button>
+	    <button type="button" class="btn btn-sm btn-default" ng-click="toggleMin()" tooltip="After today restriction">Min date</button>
 </div>

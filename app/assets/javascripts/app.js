@@ -7,7 +7,7 @@ angular.module('ngTerpsys', ['ui.router', 'templates', 'Devise','ui.bootstrap','
 		$stateProvider
 			.state('public', {
 				url: '/public',
-				templateUrl: 'home/_home.html',
+				templateUrl: 'public/_home.html',
 				controller: 'PublicCtrl',
 		})
 	
