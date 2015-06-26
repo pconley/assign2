@@ -12,10 +12,10 @@
 }
 
 .sidebar ul li {
-    border-bottom: 1px solid darken(@gray-lightest, 6.5%);
+    border-bottom: 1px solid gray;
     a {
         &.active {
-            background-color: @gray-lighter;
+            background-color: gray-lighter;
         }
     }
 }
