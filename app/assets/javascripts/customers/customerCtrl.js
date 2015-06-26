@@ -54,20 +54,13 @@ angular.module('ngTerpsys')
 		    $scope.mobile = match;
 		});
 		
-		$scope.animationsEnabled = true;
-
 	  	$scope.openAddCustomer = function (size) {
 			console.log('*** openAddCustomer. size='+size);
 			var modalInstance = $modal.open({
-			      //animation: false, //$scope.animationsEnabled,
-			      templateUrl: 'customers/_addCustomer.html',
-				  controller: 'CustomerModalInstanceCtrl',
-				  //windowClass: 'my-dialog',
-				  //size: 'sm', // size,
-				//windowClass: 'vertical-center',
-	            //backdrop: true,
-	            animate: true,
-				//resolve: { items: function () { return $scope.items; } }
+				backdrop: false, // the combination of a backdrop and animate is
+			    animation: true, // failing to release backdrop so these setting
+			    templateUrl: 'customers/_addCustomer.html',
+				controller: 'CustomerModalInstanceCtrl',
 			});
 			
 			console.log('--- modal instance...',modalInstance);
@@ -75,9 +68,6 @@ angular.module('ngTerpsys')
 			modalInstance.result.then(
 				function (returnValue) {
 					console.log('*** modal instance promise. returned...',returnValue);
-					//$('#your-modal-id').modal('hide');
-					//$('body').removeClass('modal-open');
-					//$('.modal-backdrop').remove();
 					true;
 				}, function (returnValue) {
 					console.log('*** modal instance promise2. returned...',returnValue);
