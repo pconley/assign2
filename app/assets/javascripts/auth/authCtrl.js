@@ -1,4 +1,4 @@
-angular.module('ngTerpsys')
+angular.module('assign')
 .controller('AuthCtrl', ['$scope','$state','Auth','toastr',
 	function($scope, $state, Auth, toastr){
 	  $scope.login = function() {

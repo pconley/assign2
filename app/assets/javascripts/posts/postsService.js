@@ -1,4 +1,4 @@
-angular.module('ngTerpsys')
+angular.module('assign')
 .factory('postsService', ['$http',
 	function($http){
 	  var o = {

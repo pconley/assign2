@@ -1,4 +1,4 @@
-angular.module('ngTerpsys').controller('ModalCtrl', function ($scope, $modal, $log) {
+angular.module('assign').controller('ModalCtrl', function ($scope, $modal, $log) {
 
   $scope.items = ['item1', 'item2', 'item3'];
 
@@ -34,7 +34,7 @@ angular.module('ngTerpsys').controller('ModalCtrl', function ($scope, $modal, $l
 // Please note that $modalInstance represents a modal window (instance) dependency.
 // It is not the same as the $modal service used above.
 
-angular.module('ngTerpsys').controller('ModalInstanceCtrl', function ($scope, $modalInstance, items) {
+angular.module('assign').controller('ModalInstanceCtrl', function ($scope, $modalInstance, items) {
 
   $scope.items = items;
   $scope.selected = {

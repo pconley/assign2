@@ -1,4 +1,4 @@
-angular.module('ngTerpsys')
+angular.module('assign')
 .controller('MainCtrl', ['$scope','Auth','toastr',
 	function($scope, Auth, toastr){
 		$scope.signedIn = Auth.isAuthenticated;

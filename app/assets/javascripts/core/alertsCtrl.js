@@ -1,4 +1,4 @@
-angular.module('ngTerpsys')
+angular.module('assign')
 .controller('AlertsCtrl', ['$scope', 'alertsService', function ($scope,alertsService) {
   $scope.alerts = alertsService.alerts
 

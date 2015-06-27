@@ -1,4 +1,4 @@
-angular.module('ngTerpsys').
+angular.module('assign').
 controller('CalendarCtrl', function ($scope) {	
   $scope.today = function() { $scope.dt = new Date(); };
   $scope.today();

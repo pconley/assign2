@@ -1,4 +1,4 @@
-angular.module('ngTerpsys')
+angular.module('assign')
 .controller('CustomerCtrl', ['$scope','customersService','currentCustomer','screenSize','$log','$modal','$filter',
 	function($scope,customersService,currentCustomer,screenSize,$log,$modal,$filter){
 		
@@ -92,7 +92,7 @@ angular.module('ngTerpsys')
 
 // Note that $modalInstance represents a modal window (instance) 
 // dependency. It is not the same as the $modal service used above.
-angular.module('ngTerpsys')
+angular.module('assign')
 .controller('CustomerModalInstanceCtrl', ['$scope','$modalInstance','customersService', 
 function ($scope, $modalInstance, customersService) {
 

@@ -1,4 +1,4 @@
-angular.module('ngTerpsys')
+angular.module('assign')
 .factory('customersService', ['$http','alertsService','toastr',
 	function($http, alertsService, toastr){
 	  var o = {

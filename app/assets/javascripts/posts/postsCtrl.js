@@ -1,4 +1,4 @@
-angular.module('ngTerpsys')
+angular.module('assign')
 .controller('PostsCtrl', ['$scope','postsService','currentPost',
 	function($scope, postsService, currentPost){
 		$scope.post = currentPost; // see the app.js resolve

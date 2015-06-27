@@ -1,4 +1,4 @@
-angular.module('ngTerpsys')
+angular.module('assign')
 .factory('alertsService', [function(){
 	  var o = {
 	    alerts: [
