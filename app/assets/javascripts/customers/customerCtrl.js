@@ -1,10 +1,12 @@
 angular.module('assign')
-.controller('CustomerCtrl', ['$scope','customersService','currentCustomer','screenSize','$log','$modal','$filter',
-	function($scope,customersService,currentCustomer,screenSize,$log,$modal,$filter){
-		
+.controller('CustomerCtrl', ['$scope','customersService','currentCustomer','screenSize','$modal','$filter','toastr',
+	function($scope,customersService,currentCustomer,screenSize,$modal,$filter,toastr){
+				
 		$scope.error_message = '';
 		$scope.customer = currentCustomer; // see the app.js resolve
 		$scope.customers = customersService.customers;
+		console.log('controller customers...', $scope.customers);
+		
 		$scope.totalCustomersCount = $scope.customers.length;
 		
 		//****** sort, filter and paging **********
@@ -62,9 +64,7 @@ angular.module('assign')
 			    templateUrl: 'customers/_addCustomer.html',
 				controller: 'CustomerModalInstanceCtrl',
 			});
-			
 			console.log('--- modal instance...',modalInstance);
-			
 			modalInstance.result.then(
 				function (returnValue) {
 					console.log('*** modal instance promise. returned...',returnValue);
@@ -74,11 +74,33 @@ angular.module('assign')
 				    console.log('*** modal instance promise2. dismissed at: ' + new Date());
 			});
 		};
-					
-		$scope.updateCustomer = function(){
-		  console.log('*** updateCustomer');
-		  customersService.update(currentCustomer);
+		
+		$scope.loadCustomers = function(){
+		  console.log('*** loadCustomers');
+		  return customersService.getAll();
 		};
+					
+		$scope.updateCustomer = function(customer){
+			function success(response){
+				console.log("*** update success. response...",response);
+				toastr.success('Update worked.','Customers', {closeButton: true});	
+			};
+			function failure(response) {
+				console.log("*** update failure. response...",response);
+				toastr.success('Update failed.','Customers', {closeButton: true});		
+				angular.forEach(response, function(errors, key) {
+			  		angular.forEach(errors, function(e) {
+				  		console.log('<<< '+key+' '+e);
+			      		$scope.form[key].$dirty = true;
+			      		$scope.form[key].$setValidity(e, false);
+			  		});
+		    	});
+		  	};
+		  	console.log('*** update customer...',customer);
+		  	return customersService.update(customer,success,failure);
+		};
+		
+
 		
 		$scope.deleteCustomer = function(customer){		
 		  if (confirm("Are you sure you want to delete this customer?") == true) {

@@ -79,8 +79,9 @@ angular.module('assign', ['ui.router', 'templates', 'Devise','ui.bootstrap','mat
 		  templateUrl: 'customers/_customer.html',
 		  controller: 'CustomerCtrl',
 		  resolve: {
+			// creates a promise that can be injected into a controller
 		    currentCustomer: ['$stateParams', 'customersService', function($stateParams, customersService) {
-			  console.log('resolving current customer id = ',$stateParams.id);
+		  	  console.log('resolving current customer id = ',$stateParams.id);
 		      return customersService.get($stateParams.id);
 		    }]
 		  }

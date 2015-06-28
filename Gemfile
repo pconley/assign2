@@ -22,6 +22,7 @@ gem 'uglifier', '>= 1.3.0'
 group :development, :test do
   gem 'better_errors'
   gem 'byebug'
+  gem 'jasmine'
   gem 'rspec-rails'
   gem 'spring'
   gem 'sqlite3'

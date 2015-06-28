@@ -6,4 +6,5 @@
 //= require angular-media-queries
 //= require angular-animate
 //= require angular-toastr
+//= require angular-mocks
 //= require_tree .

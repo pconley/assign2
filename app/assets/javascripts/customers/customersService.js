@@ -5,18 +5,21 @@ angular.module('assign')
 	    customers: []
 	  };
 	  o.getAll = function() {
+		console.log('>>> get all customers');
 	    return $http.get('/a1/customers.json').success(function(data){
-		  console.log('back from customer.getAll. count =',data.length)
+		  console.log('>>> real getAll. data...',data);
+		  console.log('>>> back from customer.getAll. count =',data.length);
 	      angular.copy(data, o.customers);
 	    })
 		.error(function(x) {
-		  console.log("Failed to get customers. x...",x);
+		  console.log(">>> Failed to get customers. x...",x);
 		});
 	  };
 	  o.create = function(customer, success, failure) {
 		console.log('>>> customersService: create. customer...', customer)
 	    return $http.post('/a1/customers.json', customer)
 			.success(function(data){ 
+				console.log('>>> pushing data...',data)
 				o.customers.push(data); 
 				success(); // callback
 			})
@@ -39,15 +42,31 @@ angular.module('assign')
 		  toastr.error('Delete failed on server.','Customers', {closeButton: true});
 	    });
 	  };
-	  o.update = function(customer) {
+	  o.update = function(customer,success,failure) {
 		console.log('customersService: update. customer...', customer)
-	    return $http.put('/a1/customers/'+customer.id+'.json', customer).success(function(data){
-		  // Note that rails return 204 (no data) on a put so the record in not returned
-		  // you must do a subsequent get if you expect that other fields had ripple change
-		  toastr.success('Update worked.','Customers', {closeButton: true});
-		  console.log('--- update success');
-	    });
-	  };
+	    return $http.put('/a1/customers/'+customer.id+'.json', customer)
+			.success(function(data){ 
+				console.log('<<< update success. data...',data)
+				success(); // callback
+			})
+			.error(function(response){ 
+				console.log('<<< update error. response...',response); 			  
+				failure(response.errors); // callback
+			});
+		};
+	
+	
+	
+	
+	// .success(function(data){
+	// 	  // Note that rails return 204 (no data) on a put so the record in not returned
+	// 	  // you must do a subsequent get if you expect that other fields had ripple change
+	// 	  toastr.success('Update worked.','Customers', {closeButton: true});
+	// 	  console.log('--- update success');
+	//     });
+	//   };
+	
+	
 	  o.get = function(id) {
 	    return $http.get('/a1/customers/' + id + '.json').then(function(res){
 	      return res.data;
