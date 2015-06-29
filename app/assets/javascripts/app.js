@@ -54,6 +54,7 @@ angular.module('assign', ['ui.router', 'templates', 'Devise','ui.bootstrap','mat
 	      url: '/customers',
 	      templateUrl: 'customers/_customers.html',
 	      controller: 'CustomerCtrl',
+	      data: { requireLogin: true },
 		  resolve: { // called each time state change to this state
 		    loadCustomers: ['customersService', function(customersService){
 				console.log('*** customer: loadCustomers')
@@ -78,6 +79,7 @@ angular.module('assign', ['ui.router', 'templates', 'Devise','ui.bootstrap','mat
 		  url: '/customers/{id}',
 		  templateUrl: 'customers/_customer.html',
 		  controller: 'CustomerCtrl',
+		  data: { requireLogin: true },
 		  resolve: {
 			// creates a promise that can be injected into a controller
 		    currentCustomer: ['$stateParams', 'customersService', function($stateParams, customersService) {

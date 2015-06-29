@@ -93,7 +93,7 @@
         </li>
 
 	    <li ng-show="signedIn()"><a href="#/customers">Customers</a></li>
-	    <li ng-show="signedIn()"><a href="#/">{{ user.email }}</a></li>
+	    <li ng-show="signedIn()"><a href="#/">{{user.email}}</a></li>
 	    <li ng-show="signedIn()"><a ng-click="logout()">Log Out</a></li>
 	
 	    <li ng-hide="signedIn()"><a href="#/login">Log In</a></li>	

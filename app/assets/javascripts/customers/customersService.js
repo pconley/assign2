@@ -1,9 +1,10 @@
 angular.module('assign')
 .factory('customersService', ['$http','alertsService','toastr',
 	function($http, alertsService, toastr){
-	  var o = {
-	    customers: []
-	  };
+		var o = {
+	    	customers: [],
+	        getCustromer : function () { return o.customers; }
+	  	};
 	  o.getAll = function() {
 		console.log('>>> get all customers');
 	    return $http.get('/a1/customers.json').success(function(data){
@@ -28,18 +29,18 @@ angular.module('assign')
 				failure(response.errors); // callback
 			});
 	  };
-	  o.delete = function(customer) {
+	  o.delete = function(customer, success, failure) {
 		console.log('>>> delete customer #', customer.id);
 	    return $http.delete('/a1/customers/'+customer.id+'.json').success(function(data){
-		  var index = o.customers.indexOf(customer);
-		  o.customers.splice(index, 1);
-	      //alertsService.create({msg: 'Customer was deleted!'});
-		  toastr.success('Delete worked.','Customers', {closeButton: true});
-		  console.log('<<< delete customer at index ='+index+' ...',customer);		
+		  	var index = o.customers.indexOf(customer);
+		  	console.log('<<< customer count1 = '+o.customers.length);
+		  	o.customers.splice(index, 1);
+		  	console.log('<<< customer count2 = '+o.customers.length);
+		    console.log('<<< delete customer at index ='+index+' ...',customer);	
+			success(); // callback
 	    }).error(function(data){
-		  console.log('<<< delete error');
-	      //alertsService.create({msg: 'Customer delete failed on server.'});
-		  toastr.error('Delete failed on server.','Customers', {closeButton: true});
+		  	console.log('<<< delete error');
+			failure(); // callback
 	    });
 	  };
 	  o.update = function(customer,success,failure) {
@@ -53,20 +54,7 @@ angular.module('assign')
 				console.log('<<< update error. response...',response); 			  
 				failure(response.errors); // callback
 			});
-		};
-	
-	
-	
-	
-	// .success(function(data){
-	// 	  // Note that rails return 204 (no data) on a put so the record in not returned
-	// 	  // you must do a subsequent get if you expect that other fields had ripple change
-	// 	  toastr.success('Update worked.','Customers', {closeButton: true});
-	// 	  console.log('--- update success');
-	//     });
-	//   };
-	
-	
+	  };
 	  o.get = function(id) {
 	    return $http.get('/a1/customers/' + id + '.json').then(function(res){
 	      return res.data;

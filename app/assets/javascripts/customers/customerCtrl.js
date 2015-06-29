@@ -4,9 +4,7 @@ angular.module('assign')
 				
 		$scope.error_message = '';
 		$scope.customer = currentCustomer; // see the app.js resolve
-		$scope.customers = customersService.customers;
-		console.log('controller customers...', $scope.customers);
-		
+		$scope.customers = customersService.customers;		
 		$scope.totalCustomersCount = $scope.customers.length;
 		
 		//****** sort, filter and paging **********
@@ -17,7 +15,7 @@ angular.module('assign')
         	$scope.sortReverse = ($scope.sortType === type) ? !$scope.sortReverse : false;
         	$scope.sortType = type;
       	};
-		$scope.$watch("sortType + sortReverse", function() {
+		$scope.$watch("sortType + sortReverse + customers", function() {
 			//console.log('sorting: '+$scope.sortType+' : '+$scope.sortReverse);
 			var orderBy = $filter('orderBy');			
 			$scope.customers = orderBy($scope.customers, $scope.sortType, $scope.sortReverse)
@@ -59,8 +57,8 @@ angular.module('assign')
 	  	$scope.openAddCustomer = function (size) {
 			console.log('*** openAddCustomer. size='+size);
 			var modalInstance = $modal.open({
-				backdrop: false, // the combination of a backdrop and animate is
-			    animation: true, // failing to release backdrop so these setting
+				backdrop: true,   // the combination of a backdrop and animate is
+			    animation: false, // failing to release backdrop so these setting
 			    templateUrl: 'customers/_addCustomer.html',
 				controller: 'CustomerModalInstanceCtrl',
 			});
@@ -79,6 +77,8 @@ angular.module('assign')
 		  console.log('*** loadCustomers');
 		  return customersService.getAll();
 		};
+		
+		$scope.refresh = function(){ $scope.apply() };
 					
 		$scope.updateCustomer = function(customer){
 			function success(response){
@@ -100,14 +100,18 @@ angular.module('assign')
 		  	return customersService.update(customer,success,failure);
 		};
 		
-
-		
-		$scope.deleteCustomer = function(customer){		
-		  if (confirm("Are you sure you want to delete this customer?") == true) {
-		  	var index = $scope.customers.indexOf(customer);
-		  	console.log('*** deleteCustomer at index ='+index+' ...',customer);
-		  	customersService.delete(customer);
-		  }
+		$scope.deleteCustomer = function(customer){	
+			function success(response){
+				$scope.customers = customersService.customers;
+				toastr.success('Delete worked.','Customers', {closeButton: true});	
+			};
+			function failure(response) {
+				console.log("*** delete failure. response...",response);
+				toastr.success('Deletes failed.','Customers', {closeButton: true});	
+		  	};				
+		  	if (confirm("Are you sure you want to delete this customer?") == true) {
+		  		customersService.delete(customer,success,failure);
+		  	}
 		};
 	}
 ]);
@@ -150,16 +154,16 @@ function ($scope, $modalInstance, customersService) {
 		customersService.create({
 	    	company_name: $scope.company_name,
 			contact_name: $scope.contact_name
-		}, $scope.ok, success, failure );
+		}, success, failure );
   	};
 
 	function success(response){
-		console.log("<<< success. response...",response);
+		console.log("*** modal success. response...",response);
 		$modalInstance.dismiss('success');
 	};
 
   	function failure(response) {
-		console.log("<<< failure. response...",response);
+		console.log("*** modal failure. response...",response);
 		angular.forEach(response, function(errors, key) {
 	  		angular.forEach(errors, function(e) {
 		  		console.log('<<< '+key+' '+e);

@@ -1,6 +1,6 @@
 "use strict";
 
-describe('Customers::CustomerCtrl', function() {
+describe('Customers::Controller', function() {
   var $scope, ctrl, $timeout, $httpBackend;
   var screenSize, $log, $modal, $filter;
   
@@ -38,15 +38,16 @@ describe('Customers::CustomerCtrl', function() {
       });
     });
   });
- 
-  it('should start with no error message', function() {
+  //afterEach(function () { $httpBackend.flush(); });
+
+  it('starts with no error message', function() {
     expect($scope.error_message).toEqual('');
   });
-  it('should start with desktop', function() {
+  it('starts with desktop set', function() {
     expect($scope.mobile).toEqual(false);
     expect($scope.desktop).toEqual(true);
   });  
-  it('should start empty customers', function() {
+  it('starts empty customers', function() {
     expect($scope.customers).toEqual([]);
   });
   it('after load has customers', function() {
@@ -57,7 +58,7 @@ describe('Customers::CustomerCtrl', function() {
     });
 	expect(true).toEqual(true);
   });  
-  it('calls the update service', function (){
+  it('update invokes service', function (){
 	var id = mockCurrentCustomer.id;
 	var expect_url = '/a1/customers/'+id+'.json';
 	$httpBackend.whenPUT(expect_url).respond();
