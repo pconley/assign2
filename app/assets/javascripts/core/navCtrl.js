@@ -8,14 +8,10 @@ angular.module('assign')
 			$state.go('public');
 		};
 		
-		$scope.active = {};
+		$scope.openItemKey = '';
 		$scope.toggle = function(key){
-			start = $scope.active[key] 
-			console.log('toggle key='+key+' value='+start);
-			if( start == false ){
-				// we are turing ON this item so turn off ALL active
-				for( var k in $scope.active ){ $scope.active[k] = false; };
-			}
-			$scope.active[key] = !start;
+			console.log('toggle: key='+key+' start='+$scope.openItemKey);
+			$scope.openItemKey = $scope.openItemKey == key ? '' : key;
 		};
+		$scope.isOpenItem = function(key){ return key == $scope.openItemKey }
 }]);

@@ -2,9 +2,10 @@
     <div class="sidebar-nav navbar-collapse">
         <ul class="nav" id="side-menu">
 
-            <li> <!-- Dashboard Menu Item -->
-				<a href="#/home"><i class="fa fa-dashboard fa-fw"></i> Admin Dashboard</a>
-			</li>  
+			<li ui-sref-active="active"> <!-- Dashboard Menu Item -->
+				<a ui-sref=".dashboard"><i class="fa fa-dashboard fa-fw"></i> Admin Dashboard</a>
+			</li>	
+		     
 			<li class="sidebar-search">
                 <div class="input-group custom-search-form">
                     <input type="text" class="form-control" placeholder="Search...">
@@ -16,12 +17,12 @@
                 </div>
             </li>
 			<li> <!-- Jobs Menu Item -->
-				<a ng-click="toggle('jobs')" ng-init="active['jobs'] = false" >
+				<a ng-click="toggle('jobs')" >
 					<i class="fa fa-calendar fa-fw"></i> Jobs Calendar
-					<span ng-hide="active['jobs']" class="fa fa-plus-square arrow"></span>
-					<span ng-show="active['jobs']" class="fa fa-minus-square arrow"></span>
+					<span ng-hide="isOpenItem('jobs')" class="fa fa-plus-square arrow"></span>
+					<span ng-show="isOpenItem('jobs')" class="fa fa-minus-square arrow"></span>
 				</a>
-				<div ng-show="active['jobs']" 
+				<div ng-show="isOpenItem('jobs')" 
 						class="nav nav-second-level well well-sm" 
 						style="min-height:290px;">
 			    	<datepicker ng-model="dt" min-date="minDate" show-weeks="false"
@@ -36,12 +37,12 @@
 			</li>
 			       
             <li> <!-- Reports Menu Item -->
-                <a ng-click="toggle('reports')" ng-init="active['reports'] = false" >
+                <a ng-click="toggle('reports')" >
 					<i class="fa fa-files-o fa-fw"></i> Reports
-					<span ng-hide="active['reports']" class="fa fa-plus-square arrow"></span>
-					<span ng-show="active['reports']" class="fa fa-minus-square arrow"></span>
+					<span ng-hide="isOpenItem('reports')" class="fa fa-plus-square arrow"></span>
+					<span ng-show="isOpenItem('reports')" class="fa fa-minus-square arrow"></span>
 				</a>
-                <ul ng-show="active['reports']" class="nav nav-second-level">
+                <ul ng-show="isOpenItem('reports')" class="nav nav-second-level">
 				    <li><a href="#">Monthly Income</a></li>
 				    <li><a href="#">Monthly Payroll</a></li>
 				    <li><a href="#">Diversity</a></li>
@@ -49,25 +50,25 @@
                 </ul>
             </li>
             <li> <!-- People Menu Item -->
-                <a ng-click="toggle('users')" ng-init="active['users'] = false" >
+                <a ng-click="toggle('users')" >
 					<i class="fa fa-user fa-fw"></i> Users
-					<span ng-hide="active['users']" class="fa fa-plus-square arrow"></span>
-					<span ng-show="active['users']" class="fa fa-minus-square arrow"></span>
+					<span ng-hide="isOpenItem('users')" class="fa fa-plus-square arrow"></span>
+					<span ng-show="isOpenItem('users')" class="fa fa-minus-square arrow"></span>
 				</a>
-                <ul ng-show="active['users']" class="nav nav-second-level">
+                <ul ng-show="isOpenItem('users')" class="nav nav-second-level">
 				    <li><a href="#">Interpreters</a></li>
-				    <li><a href="#">Customers</a></li>
+				    <li ui-sref-active="active"><a ui-sref=".customers">Customers</a></li>	
 				    <li><a href="#">Clients</a></li>
 				    <li><a href="#">Admins</a></li>
                 </ul>
             </li>
             <li> <!-- Tables Menu Item -->
-                <a ng-click="toggle('tables')" ng-init="active['tables'] = false" >
+                <a ng-click="toggle('tables')" >
 					<i class="fa fa-table fa-fw"></i> Tables
-					<span ng-hide="active['tables']" class="fa fa-plus-square arrow"></span>
-					<span ng-show="active['tables']" class="fa fa-minus-square arrow"></span>
+					<span ng-hide="isOpenItem('tables')" class="fa fa-plus-square arrow"></span>
+					<span ng-show="isOpenItem('tables')" class="fa fa-minus-square arrow"></span>
 				</a>
-                <ul ng-show="active['tables']" class="nav nav-second-level">
+                <ul ng-show="isOpenItem('tables')" class="nav nav-second-level">
 				    <li><a href="#">Job Genres</a></li>
 				    <li><a href="#">Holidays</a></li>
 				    <li><a href="#">Colors</a></li>
@@ -75,12 +76,12 @@
                 </ul>
             </li>
             <li> <!-- Elements Menu Item -->
-                <a ng-click="toggle('elements')" ng-init="active['elements'] = false" >
+                <a ng-click="toggle('elements')" >
 					<i class="fa fa-wrench fa-fw"></i> UI Elements
-					<span ng-hide="active['elements']" class="fa fa-plus-square arrow"></span>
-					<span ng-show="active['elements']" class="fa fa-minus-square arrow"></span>
+					<span ng-hide="isOpenItem('elements')" class="fa fa-plus-square arrow"></span>
+					<span ng-show="isOpenItem('elements')" class="fa fa-minus-square arrow"></span>
 				</a>
-                <ul  ng-show="active['elements']" class="nav nav-second-level">
+                <ul  ng-show="isOpenItem('elements')" class="nav nav-second-level">
                     <li> <a href="#">Panels and Wells</a> </li>
                     <li> <a href="#">Buttons</a> </li>
                     <li> <a href="#">Notifications</a> </li>
@@ -90,12 +91,12 @@
                 </ul>
             </li>
             <li> <!-- Multi-Level Menu Item -->
-                <a ng-click="toggle('multi')" ng-init="active['multi'] = false" >
+                <a ng-click="toggle('multi')" >
 					<i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown
-					<span ng-hide="active['multi']" class="fa fa-plus-square arrow"></span>
-					<span ng-show="active['multi']" class="fa fa-minus-square arrow"></span>
+					<span ng-hide="isOpenItem('multi')" class="fa fa-plus-square arrow"></span>
+					<span ng-show="isOpenItem('multi')" class="fa fa-minus-square arrow"></span>
 				</a>
-                <ul ng-show="active['multi']" class="nav nav-second-level">
+                <ul ng-show="isOpenItem('multi')" class="nav nav-second-level">
                     <li> <a href="#">Second Level Item</a> </li> 
 					<li> <a href="#">Second Level Item</a> </li>
 					<li> <!-- Third Level Menu Item -->
@@ -114,12 +115,12 @@
                 </ul>
             </li>
             <li> <!-- Download Menu Item -->
-                <a ng-click="toggle('download')" ng-init="active['download'] = false" >
+                <a ng-click="toggle('download')">
 					<i class="fa fa-cloud-download fa-fw"></i> Downloads
-					<span ng-hide="active['download']" class="fa fa-plus-square arrow"></span>
-					<span ng-show="active['download']" class="fa fa-minus-square arrow"></span>
+					<span ng-hide="isOpenItem('download')" class="fa fa-plus-square arrow"></span>
+					<span ng-show="isOpenItem('download')" class="fa fa-minus-square arrow"></span>
 				</a>
-                <ul  ng-show="active['download']" class="nav nav-second-level">
+                <ul  ng-show="isOpenItem('download')" class="nav nav-second-level">
                     <li> <a href="#">Music</a> </li>
                     <li> <a href="#">Pictures</a> </li>
                     <li> <a href="#">Data Files</a> </li>

@@ -3,19 +3,30 @@ angular.module('assign')
 	function($rootScope, $scope, $state, Auth, toastr){
 				
 		$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState) {
-			// console.log('=== state changed');
+			console.log('=== state changed to '+toState.name);
 			// console.log('=== event...', event);
-			// console.log('=== toState...', toState);
+			console.log('=== toState...', toState);
 			// console.log('=== toState.data...', toState.data);
 			// console.log('=== toParams...', toParams);
 			// console.log('=== fromState...', fromState);
 			var required = toState.data !== undefined && toState.data.requireLogin
-			// console.log('requires login = '+required);
-			// console.log('is authenticated = '+Auth.isAuthenticated());				
-			if(required && !Auth.isAuthenticated()) {
-				$state.go('public');
-				event.preventDefault();
-				return;
+			var local_auth = Auth.isAuthenticated();				
+			console.log('requires login = '+required);
+			console.log('loca auth = '+local_auth);				
+			if(required && !local_auth) {
+				// there is no local authentication (yet) so check with 
+				// the server to see if there is a servers session
+				Auth.currentUser().then(function (user){
+					$scope.user = user; // save or void
+					var server_auth = Auth.isAuthenticated();
+					console.log('server auth = '+server_auth);
+					if( !server_auth ){
+						console.log('*** redirecting to public');
+						$state.go('public');
+						event.preventDefault();
+						return;
+					}
+			  	});
 			}	
 		});
 				
@@ -31,7 +42,9 @@ angular.module('assign')
 			}
 			$scope.active[key] = !start;
 		};
+		console.log('here1');
 	  	Auth.currentUser().then(function (user){
+			console.log('here2');
 	    	$scope.user = user;
 	  	});
 	  	$scope.$on('devise:new-registration', function (e, user){

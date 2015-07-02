@@ -13,11 +13,11 @@
 
 .sidebar ul li {
     border-bottom: 1px solid gray;
-    a {
+/*    a {
         &.active {
             background-color: gray-lighter;
         }
-    }
+    }*/
 }
 
 .sidebar .arrow {

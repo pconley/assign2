@@ -78,7 +78,7 @@ angular.module('assign')
 		  return customersService.getAll();
 		};
 		
-		$scope.refresh = function(){ $scope.apply() };
+		$scope.back = function(){ window.history.back(); };
 					
 		$scope.updateCustomer = function(customer){
 			function success(response){
@@ -158,15 +158,16 @@ function ($scope, $modalInstance, customersService) {
   	};
 
 	function success(response){
-		console.log("*** modal success. response...",response);
+		console.log("*** modal: success response...",response);
 		$modalInstance.dismiss('success');
 	};
 
   	function failure(response) {
-		console.log("*** modal failure. response...",response);
+		console.log("*** modal: failure response...",response);
+		console.log("*** form = "+form)
 		angular.forEach(response, function(errors, key) {
 	  		angular.forEach(errors, function(e) {
-		  		console.log('<<< '+key+' '+e);
+		  		console.log('*** '+key+' '+e);
 	      		$scope.form[key].$dirty = true;
 	      		$scope.form[key].$setValidity(e, false);
 	  		});

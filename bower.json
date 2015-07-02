@@ -1,5 +1,5 @@
 {
-  "name": "ng-terpsys",
+  "name": "assign",
   "version": "0.0.0",
   "authors": [
     "pconley312 <pconley312@gmail.com>"
@@ -13,15 +13,15 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "~1.3.0",
+    "angular": "~1.4.1",
     "angular-ui-router": "~0.2.15",
     "bootstrap": "~3.3.4",
     "angular-devise": "~1.1.0",
     "angular-ui": "~0.4.0",
     "angular-bootstrap": "~0.13.0",
     "angular-media-queries": "~0.4.0",
-    "angular-toastr": "~1.3.0",
-    "angular-animate": "~1.3.0",
+    "angular-toastr": "~1.4.0",
+    "angular-animate": "~1.4.0",
     "angular-mocks": "~1.4.1"
   },
   "resolutions": {
