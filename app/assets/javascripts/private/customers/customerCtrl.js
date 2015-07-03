@@ -59,7 +59,7 @@ angular.module('assign')
 			var modalInstance = $modal.open({
 				backdrop: true,   // the combination of a backdrop and animate is
 			    animation: false, // failing to release backdrop so these setting
-			    templateUrl: 'customers/_addCustomer.html',
+			    templateUrl: 'private/customers/_addCustomer.html',
 				controller: 'CustomerModalInstanceCtrl',
 			});
 			console.log('--- modal instance...',modalInstance);

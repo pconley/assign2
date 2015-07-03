@@ -12,7 +12,7 @@ angular.module('assign')
 			var required = toState.data !== undefined && toState.data.requireLogin
 			var local_auth = Auth.isAuthenticated();				
 			console.log('requires login = '+required);
-			console.log('loca auth = '+local_auth);				
+			console.log('has local auth = '+local_auth);				
 			if(required && !local_auth) {
 				// there is no local authentication (yet) so check with 
 				// the server to see if there is a servers session
@@ -42,9 +42,7 @@ angular.module('assign')
 			}
 			$scope.active[key] = !start;
 		};
-		console.log('here1');
 	  	Auth.currentUser().then(function (user){
-			console.log('here2');
 	    	$scope.user = user;
 	  	});
 	  	$scope.$on('devise:new-registration', function (e, user){

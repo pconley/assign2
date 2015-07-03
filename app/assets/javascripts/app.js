@@ -7,6 +7,7 @@ angular.module('assign', ['ui.router', 'templates', 'Devise','ui.bootstrap','mat
 		$stateProvider
 		.state('public', {
 			url: '/public',
+			data: { requireLogin: false },
 			controller: 'PublicCtrl',
 			views: {
 		    	'header':  { templateUrl: 'public/partials/header.html'  }, 
@@ -57,23 +58,18 @@ angular.module('assign', ['ui.router', 'templates', 'Devise','ui.bootstrap','mat
 		$stateProvider
 		.state('private', {
 			url: '/private',
+			data: { requireLogin: true },
 			controller: 'PublicCtrl',
 			views: {
 			    'header':  { templateUrl: 'private/partials/header.html'  }, 
 				'content': { templateUrl: 'private/partials/content.html' }, 
 				'footer':  { templateUrl: 'private/partials/footer.html'  }
 			},
-			// resolve: {
-			// 		    	example: ['customersService', function(customersService){
-			// 		console.log('*** private: example resolve')
-			// 		    	}],
-			// 		  	},
 		});
 		
 		$stateProvider
 		.state('private.customers', {
 			url: '/customers',
-	      	data: { requireLogin: true },
 			views: {
 				'mainbody': { 
 					templateUrl: 'private/customers/_customers.html', 
@@ -86,20 +82,30 @@ angular.module('assign', ['ui.router', 'templates', 'Devise','ui.bootstrap','mat
 		      		return customersService.getAll();
 		    	}],
 				currentCustomer: [ function(){} ]
-		  	},
-			onEnter: ['$state', 'Auth', function($state, Auth) {
-				console.log('*** customers on enter: authenticating user')
-						// 			    Auth.currentUser().then(function(user) {
-						// 			            // User was logged in, or Devise returned
-						// 			            // previously authenticated session.
-						// 			            console.log('user...',user); // => {id: 1, ect: '...'}
-						// 			    }, function(error) {
-						// 			            // unauthenticated error
-						// console.log("*** un-authenticatd user")
-						// 			            $state.go('public');
-						// 			    });
-			}]
+		  	}
 		});
+				
+		$stateProvider
+		.state('private.customers.detail', {
+	        url: 'customer/:id',
+	        views: {
+				// 'mainbody': {
+				// 	templateUrl: 'private/customers/_example.html',
+				// 	controller: 'CustomerCtrl'
+				// },
+	            'detail': {
+	                templateUrl: 'private/customers/_customer.html',
+	                controller: 'CustomerCtrl'        
+	            }
+	        },
+		  	resolve: {
+				// creates a promise that can be injected into a controller
+		    	currentCustomer: ['$stateParams', 'customersService', function($stateParams, customersService) {
+		  	  		console.log('resolving detail customer id = ',$stateParams.id);
+		      		return customersService.get($stateParams.id);
+		    	}]
+		  	}
+	    });
 		
 		$stateProvider
 		.state('private.dashboard', {
@@ -111,20 +117,8 @@ angular.module('assign', ['ui.router', 'templates', 'Devise','ui.bootstrap','mat
 					//controller: 'CustomerCtrl',
 				},
 			},
-			// resolve: { // called each time state change to this state
-			// 		    	loadCustomers: ['customersService', function(customersService){
-			// 		console.log('*** customer: loadCustomers')
-			// 		      		return customersService.getAll();
-			// 		    	}],
-			// 	currentCustomer: [ function(){} ]
-			// 		  	},
-			// onEnter: ['$state', 'Auth', function($state, Auth) {
-			// 	console.log('*** dashboard on enter: authenticating user')
-			// }]
 		});
 		
-		
-			
 		// $stateProvider
 		// 	    .state('private.home', {
 		// 	      url: '/home',
@@ -142,6 +136,7 @@ angular.module('assign', ['ui.router', 'templates', 'Devise','ui.bootstrap','mat
 		// 	  }]
 		// 	}
 		// });
+		
 		// $stateProvider
 		// .state('private.posts', {
 		// 	    	url: '/posts',
@@ -162,19 +157,6 @@ angular.module('assign', ['ui.router', 'templates', 'Devise','ui.bootstrap','mat
 		//   resolve: {
 		//     currentPost: ['$stateParams', 'postsService', function($stateParams, postsService) {
 		//       return postsService.get($stateParams.id);
-		//     }]
-		//   }
-		// })
-		// .state('private.customer', {
-		//   url: '/customers/{id}',
-		//   templateUrl: 'customers/_customer.html',
-		//   controller: 'CustomerCtrl',
-		//   data: { requireLogin: true },
-		//   resolve: {
-		// 	// creates a promise that can be injected into a controller
-		//     currentCustomer: ['$stateParams', 'customersService', function($stateParams, customersService) {
-		//   	  console.log('resolving current customer id = ',$stateParams.id);
-		//       return customersService.get($stateParams.id);
 		//     }]
 		//   }
 		// })
