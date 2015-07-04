@@ -1,4 +1,4 @@
-angular.module('assign', ['ui.router', 'templates', 'Devise','ui.bootstrap','matchMedia','ngAnimate', 'toastr'])
+app = angular.module('assign', ['ui.router', 'templates', 'Devise','ui.bootstrap','matchMedia','ngAnimate', 'toastr'])
 .config(['$stateProvider','$urlRouterProvider',
 	function($stateProvider, $urlRouterProvider) {
 		
@@ -63,6 +63,7 @@ angular.module('assign', ['ui.router', 'templates', 'Devise','ui.bootstrap','mat
 			views: {
 			    'header':  { templateUrl: 'private/partials/header.html'  }, 
 				'content': { templateUrl: 'private/partials/content.html' }, 
+				'mainbody': { templateUrl: 'private/partials/example.html' }, 
 				'footer':  { templateUrl: 'private/partials/footer.html'  }
 			},
 		});
@@ -87,15 +88,15 @@ angular.module('assign', ['ui.router', 'templates', 'Devise','ui.bootstrap','mat
 				
 		$stateProvider
 		.state('private.customers.detail', {
-	        url: 'customer/:id',
+			url: 'customer/:id',
 	        views: {
-				// 'mainbody': {
-				// 	templateUrl: 'private/customers/_example.html',
-				// 	controller: 'CustomerCtrl'
-				// },
+				'mainbody@private': {
+					templateUrl: 'private/customers/_customer.html',
+					controller: 'CustomerCtrl'
+				},
 	            'detail': {
-	                templateUrl: 'private/customers/_customer.html',
-	                controller: 'CustomerCtrl'        
+	               	templateUrl: 'private/customers/_customer.html',
+			        controller: 'CustomerCtrl'        
 	            }
 	        },
 		  	resolve: {
@@ -105,16 +106,16 @@ angular.module('assign', ['ui.router', 'templates', 'Devise','ui.bootstrap','mat
 		      		return customersService.get($stateParams.id);
 		    	}]
 		  	}
-	    });
+		});
 		
 		$stateProvider
 		.state('private.dashboard', {
 			url: '/dashboard',
-	      	data: { requireLogin: true },
+			      	data: { requireLogin: true },
 			views: {
 				'mainbody': { 
 					templateUrl: 'private/dashboard/_dashboard.html', 
-					//controller: 'CustomerCtrl',
+					controller: 'DashboardController',
 				},
 			},
 		});
