@@ -1,0 +1,26 @@
+<a href="#" tooltip="Some tooltip text!">Hover over me</a>
+
+<table class="table table-striped">  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Name</th>
+      <th>
+		<a ng-click="openCreateAdmin(admin)" tooltip="Create new admin user">
+		<i class="fa fa-plus" style="color:green"></i></a>
+	  </th>  
+    </tr>
+  </thead>
+  <tbody>
+	<div class="row">
+    <tr ng-repeat="admin in admins" >
+		<td><a ng-click="openEditAdmin(admin)" tooltip="Click to edit">
+			<i class="fa fa-pencil-square-o"></i>&nbsp;&nbsp;{{admin.email}}</a>
+		</td>
+		<td>{{admin.first_name}} {{admin.middle_name}} {{admin.last_name}}</td>
+        <td><a ng-click="deleteAdmin(admin)"  
+			tooltip="Delete admin user" tooltip-class="red-tooltip">
+			<i class="fa fa-trash-o" style="color:red"></i></a>
+		</td>
+    </tr>
+  </tbody>
+</table>
