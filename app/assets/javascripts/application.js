@@ -5,6 +5,7 @@
 //= require angular-rails-templates
 //= require angular-media-queries
 //= require angular-animate
+//= require angular-resource
 //= require angular-toastr
 //= require angular-mocks
 //= require_tree .

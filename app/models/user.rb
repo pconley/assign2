@@ -6,7 +6,8 @@ class User < ActiveRecord::Base
            
   belongs_to :agency
   
-  scope :with_role, ->(role) { where(role: role) }  
+  scope :admins,    -> { where role: 'admin' }
+  scope :with_role, -> (role) { where(role: role) }  
   
   def interpreter?
     role == 'interpreter'

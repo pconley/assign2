@@ -1,6 +1,6 @@
 class ApiController < ApplicationController
   
-  respond_to :json
+  respond_to :json, :html
               
   private
                                

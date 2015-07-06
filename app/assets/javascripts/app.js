@@ -1,4 +1,7 @@
-app = angular.module('assign', ['ui.router', 'templates', 'Devise','ui.bootstrap','matchMedia','ngAnimate', 'toastr'])
+app = angular.module('assign', [
+	'ui.router', 'templates', 'Devise','ui.bootstrap',
+	'matchMedia','ngAnimate', 'ngResource','toastr'
+])
 .config(['$stateProvider','$urlRouterProvider',
 	function($stateProvider, $urlRouterProvider) {
 		
@@ -65,6 +68,17 @@ app = angular.module('assign', ['ui.router', 'templates', 'Devise','ui.bootstrap
 				'content': { templateUrl: 'private/partials/content.html' }, 
 				'mainbody': { templateUrl: 'private/partials/example.html' }, 
 				'footer':  { templateUrl: 'private/partials/footer.html'  }
+			},
+		});
+		
+		$stateProvider
+		.state('private.admins', {
+			url: '/admins',
+			views: {
+				'mainbody': { 
+					templateUrl: 'private/admins/admins.html', 
+					controller: 'AdminCtrl',
+				},
 			},
 		});
 		
