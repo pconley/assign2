@@ -1,6 +1,6 @@
 angular.module('assign')
-.controller('EditAdminCtrl', ['$scope','$modalInstance','Admin', 'admin','toastr',
-function ($scope, $modalInstance, Admin, admin, toastr) {
+.controller('AdminModalCtrl', ['$scope','$modalInstance','AdminService', 'admin','toastr',
+function ($scope, $modalInstance, AdminService, admin, toastr) {
 	
     $scope.genders = [
     	{ id: '', name: 'None' },
@@ -55,33 +55,64 @@ function ($scope, $modalInstance, Admin, admin, toastr) {
 	  		return result.join(", ");
 		}
 	};
+	
+	$scope.add = function () {
+		console.log('*** add admin. email = '+$scope.admin.email);
+		if(!$scope.admin.email || $scope.admin.email === '') { return; }
+		AdminService.create({
+	    	email: $scope.admin.email,
+			password: $scope.admin.password,
+			first_name: $scope.admin.first_name,
+			last_name: $scope.admin.last_name,
+			middle_name: $scope.admin.middle_name,
+			gender: $scope.selectedGender.id,
+			suffix: $scope.selectedSuffix.id,
+			prefix: $scope.selectedPrefix.id,
+		}, success, failure );
+  	};
+ 	
   	$scope.update = function () {
 		//if(!$scope.email || $scope.email === '') { return; }
 		//admin.email = $scope.email || admin.email
 		console.log('*** update. admin...', admin);
-		admin.$update(function() { 
-			console.log('*** updated?'); 
-			$modalInstance.close('success');
-			toastr.success('Update worked.','Admin Users', {closeButton: true});
-		});
+		admin.$update(success,failure);
+		// admin.$update(function() { 
+		// 	console.log('*** updated?'); 
+		// 	$modalInstance.close('success');
+		// 	toastr.success('Update worked.','Admin Users', {closeButton: true});
+		// },failure);
   	};
 
+		//   	function xailure(response) {
+		// console.log("*** modal: failure response...",response);
+		// console.log("*** form = "+form)
+		// angular.forEach(response, function(errors, key) {
+		// 	  		angular.forEach(errors, function(e) {
+		//   		console.log('*** '+key+' '+e);
+		// 	      		$scope.form[key].$dirty = true;
+		// 	      		$scope.form[key].$setValidity(e, false);
+		// 	  		});
+		//     	});
+		//   	};
+		
 	function success(response){
-		console.log("*** modal: success response...",response);
-		$modalInstance.dismiss('success');
+		console.log("*** AdminModalCtrl: service success response...",response);
+		toastr.success('Change worked.','Admin Users', {closeButton: true});
+		$modalInstance.dismiss(response);
 	};
-
+	
   	function failure(response) {
-		console.log("*** modal: failure response...",response);
-		console.log("*** form = "+form)
-		angular.forEach(response, function(errors, key) {
+		console.log("*** AdminModalCtrl: service failure response...",response);
+		//console.log("*** $form...",$scope.form)
+		angular.forEach(response.data.errors, function(errors, key) {
 	  		angular.forEach(errors, function(e) {
-		  		console.log('*** '+key+' '+e);
+		  		//console.log('*** key='+key+' e...',e);
 	      		$scope.form[key].$dirty = true;
 	      		$scope.form[key].$setValidity(e, false);
 	  		});
     	});
   	};
+
 
 }]);
 

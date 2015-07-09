@@ -1,4 +1,4 @@
-app.factory("Admin", function($resource) {
+app.factory("AdminService", function($resource) {
   return $resource("/a1/admins/:id", { id: "@id" },
     {
       'create':  { method: 'POST' },
