@@ -47,12 +47,6 @@ angular.module('assign')
 		};
 		//****** pagination **********		
 		
-		$scope.desktop = screenSize.on('sm, md, lg', function(match){
-		    $scope.desktop = match;
-		});
-		$scope.mobile = screenSize.on('xs', function(match){
-		    $scope.mobile = match;
-		});
 		
 	  	$scope.openAddCustomer = function (size) {
 			console.log('*** openAddCustomer. size='+size);

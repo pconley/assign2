@@ -14,10 +14,12 @@ class A1::AdminsController < A1::BaseController
     trace "*** admin create. params=#{params}"
     trace "*** user create with values=#{values}"
     admin = User.create(values)
+    trace "*** user created. admin=#{admin}"
     if admin.save
       trace "--- save worked. admin=#{filter(admin)}"
       render :json => filter(admin), :status => 200
     else
+      trace "--- save failed. errors=#{admin.errors.full_messages[0]}"
       render :json => { :errors => admin.errors }, :status => 422
     end
   end

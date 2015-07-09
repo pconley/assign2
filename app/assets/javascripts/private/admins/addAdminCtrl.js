@@ -1,6 +1,6 @@
 angular.module('assign')
-.controller('EditAdminCtrl', ['$scope','$modalInstance','Admin', 'admin','toastr',
-function ($scope, $modalInstance, Admin, admin, toastr) {
+.controller('AddAdminCtrl', ['$scope','$modalInstance','Admin','toastr',
+function ($scope, $modalInstance, Admin, toastr) {
 	
     $scope.genders = [
     	{ id: '', name: 'None' },
@@ -26,7 +26,7 @@ function ($scope, $modalInstance, Admin, admin, toastr) {
     ];   
     $scope.selectedSuffix = $scope.suffixes[0];
 
-	$scope.admin = admin; // passed via resolve
+	$scope.admin = {};
 	console.log('*** current admin...',$scope.admin);
 	
 	$scope.ok = function () {
@@ -55,15 +55,19 @@ function ($scope, $modalInstance, Admin, admin, toastr) {
 	  		return result.join(", ");
 		}
 	};
-  	$scope.update = function () {
-		//if(!$scope.email || $scope.email === '') { return; }
-		//admin.email = $scope.email || admin.email
-		console.log('*** update. admin...', admin);
-		admin.$update(function() { 
-			console.log('*** updated?'); 
-			$modalInstance.close('success');
-			toastr.success('Update worked.','Admin Users', {closeButton: true});
-		});
+ 	$scope.add = function () {
+		console.log('*** add admin. email = '+$scope.admin.email);
+		if(!$scope.admin.email || $scope.admin.email === '') { return; }
+		Admin.create({
+	    	email: $scope.admin.email,
+			password: $scope.admin.password,
+			first_name: $scope.admin.first_name,
+			last_name: $scope.admin.last_name,
+			middle_name: $scope.admin.middle_name,
+			gender: $scope.selectedGender.id,
+			suffix: $scope.selectedSuffix.id,
+			prefix: $scope.selectedPrefix.id,
+		}, success, failure );
   	};
 
 	function success(response){
@@ -73,10 +77,12 @@ function ($scope, $modalInstance, Admin, admin, toastr) {
 
   	function failure(response) {
 		console.log("*** modal: failure response...",response);
-		console.log("*** form = "+form)
-		angular.forEach(response, function(errors, key) {
+		console.log("*** form...",form)
+		console.log("*** $form...",$scope.form)
+		angular.forEach(response.data.errors, function(errors, key) {
 	  		angular.forEach(errors, function(e) {
-		  		console.log('*** '+key+' '+e);
+		  		console.log('*** key='+key+' e...',e);
+				form_key = key;
 	      		$scope.form[key].$dirty = true;
 	      		$scope.form[key].$setValidity(e, false);
 	  		});

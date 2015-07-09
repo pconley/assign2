@@ -1,7 +1,7 @@
 angular.module('assign')
-.controller('MainCtrl', ['$rootScope','$scope','$state','Auth','toastr',
-	function($rootScope, $scope, $state, Auth, toastr){
-				
+.controller('MainCtrl', ['$rootScope','$scope','$state','Auth','toastr','screenSize',
+	function($rootScope, $scope, $state, Auth, toastr, screenSize){
+
 		$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState) {
 			console.log('=== state changed to '+toState.name);
 			// console.log('=== event...', event);
@@ -29,7 +29,14 @@ angular.module('assign')
 			  	});
 			}	
 		});
-				
+		
+		$scope.desktop = screenSize.on('sm, md, lg', function(match){
+		    $scope.desktop = match;
+		});
+		$scope.mobile = screenSize.on('xs', function(match){
+		    $scope.mobile = match;
+		});
+						
 		$scope.signedIn = Auth.isAuthenticated;
 	  	//$scope.logout = Auth.logout;
 		$scope.active = {};

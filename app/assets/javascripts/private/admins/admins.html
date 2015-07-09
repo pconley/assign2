@@ -1,26 +1,28 @@
-<a href="#" tooltip="Some tooltip text!">Hover over me</a>
-
-<table class="table table-striped">  <thead>
+<table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-striped">
+<thead>
+	<tr>
+		<th colspan="5"><input st-search="" class="input-sm form-control" placeholder="admin filter ..." type="text"/></th>
+	</tr>
     <tr>
-      <th>Email</th>
-      <th>Name</th>
+      <th st-sort="email" st-skip-natural="true">Email</th>
+      <th st-sort="display_name" st-skip-natural="true">Name</th>
       <th>
-		<a ng-click="openCreateAdmin(admin)" tooltip="Create new admin user">
+		<a ng-click="openAddAdmin()" tooltip-placement="left" tooltip="Create new admin user" >
 		<i class="fa fa-plus" style="color:green"></i></a>
 	  </th>  
     </tr>
-  </thead>
-  <tbody>
+</thead>
+<tbody>
 	<div class="row">
-    <tr ng-repeat="admin in admins" >
-		<td><a ng-click="openEditAdmin(admin)" tooltip="Click to edit">
-			<i class="fa fa-pencil-square-o"></i>&nbsp;&nbsp;{{admin.email}}</a>
+	<tr ng-repeat="row in displayedCollection">
+		<td><a ng-click="openEditAdmin(row)" tooltip="Click to edit">
+			<i class="fa fa-pencil-square-o"></i>&nbsp;&nbsp;{{row.email | lowercase}}</a>
 		</td>
-		<td>{{admin.first_name}} {{admin.middle_name}} {{admin.last_name}}</td>
-        <td><a ng-click="deleteAdmin(admin)"  
+		<td>{{row.display_name}}</td>
+        <td><a ng-click="deleteAdmin(row)"  
 			tooltip="Delete admin user" tooltip-class="red-tooltip">
 			<i class="fa fa-trash-o" style="color:red"></i></a>
 		</td>
     </tr>
-  </tbody>
+</tbody>
 </table>

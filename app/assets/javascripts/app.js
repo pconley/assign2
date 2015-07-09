@@ -1,6 +1,6 @@
 app = angular.module('assign', [
-	'ui.router', 'templates', 'Devise','ui.bootstrap',
-	'matchMedia','ngAnimate', 'ngResource','toastr'
+	'ui.router', 'templates', 'Devise','ui.bootstrap','smart-table',
+	'matchMedia','ngAnimate', 'ngResource','toastr','ngMessages'
 ])
 .config(['$stateProvider','$urlRouterProvider',
 	function($stateProvider, $urlRouterProvider) {
@@ -77,7 +77,7 @@ app = angular.module('assign', [
 			views: {
 				'mainbody': { 
 					templateUrl: 'private/admins/admins.html', 
-					controller: 'AdminCtrl',
+					controller: 'AdminsCtrl',
 				},
 			},
 		});

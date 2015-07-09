@@ -6,6 +6,8 @@
 //= require angular-media-queries
 //= require angular-animate
 //= require angular-resource
+//= require angular-messages
+//= require angular-smart-table
 //= require angular-toastr
 //= require angular-mocks
 //= require_tree .

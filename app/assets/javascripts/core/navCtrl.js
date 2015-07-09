@@ -8,6 +8,8 @@ angular.module('assign')
 			$state.go('public');
 		};
 		
+		$scope.navbarCollapsed = true;
+		
 		$scope.openItemKey = '';
 		$scope.toggle = function(key){
 			console.log('toggle: key='+key+' start='+$scope.openItemKey);

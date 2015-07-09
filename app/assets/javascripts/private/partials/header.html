@@ -92,8 +92,8 @@
           </ul>
         </li>
 
-	    <li ui-sref-active="active"><a ui-sref=".admins">Admins</a></li>	
-	    <li ui-sref-active="active"><a ui-sref=".customers">Customers</a></li>	
+	    <li ui-sref-active="active" ng-click="navbarCollapsed = true"><a ui-sref=".admins">Admins</a></li>	
+	    <li ui-sref-active="active" ng-click="navbarCollapsed = true"><a ui-sref=".customers">Customers</a></li>	
 	    <li><a href="#/">{{user.email}}</a></li>
 	    <li><a ng-click="logout()">Log Out</a></li>
 		
