@@ -16,36 +16,13 @@ angular.module('assign')
 		
 		$scope.name = function(admin){
 			name = ''
+			if( admin.first_name) name += admin.first_name + ' '
 			if( admin.last_name) name += admin.last_name
-			if( admin.first_name) name += ', ' + admin.first_name
 			if( admin.middle_name ) name += ' ' + admin.middle_name
+			if( admin.gender ) name += ' ('+admin.gender+')'
 			return name
 		}
 		
-		// $scope.genders = [
-		// 	    	{ id: '', name: 'None' },
-		// 	    	{ id: 'M', name: 'Male' },
-		// 	        { id: 'F', name: 'Female' }
-		// 	    ];    
-		// 	    $scope.selectedGender = $scope.genders[0];
-		// 
-		// 	    $scope.prefixes = [
-		// 	    	{ id: '', name: '' },
-		// 	    	{ id: 'Mr', name: 'Mr.' },
-		// 	        { id: 'Ms', name: 'Ms.' },
-		// 	        { id: 'Mrs', name: 'Mrs.' },
-		// 	        { id: 'Dr', name: 'Dr.' },
-		// 	    ];   
-		// 	    $scope.selectedPrefix = $scope.prefixes[0];
-		// 
-		// 	    $scope.suffixes = [
-		// 	    	{ id: '', name: '' },
-		// 	    	{ id: 'Jr', name: 'Jr.' },
-		// 	        { id: 'Sr', name: 'Sr.' },
-		// 	        { id: 'III', name: 'III' },
-		// 	    ];   
-		// 	    $scope.selectedSuffix = $scope.suffixes[0];
-			
 		$scope.deleteAdmin = function(admin){
 			console.log('*** delete admin. admin...',admin);
 			admin.$delete(function(admin) {

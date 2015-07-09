@@ -65,11 +65,13 @@
 		
 <div class="form-group">
 	<label class="control-label">Gender</label>
-    <select ng-model="selectedGender" ng-options="gender as gender.name for gender in genders"></select>
+    <select ng-model="admin.selectedGender" ng-options="gender as gender.name for gender in genders"></select>
 
 	<label class="control-label">Prefix</label>
-    <select ng-model="selectedPrefix" ng-options="prefix as prefix.name for prefix in prefixes"></select>
+    <select ng-model="admin.selectedPrefix" ng-options="prefix as prefix.name for prefix in prefixes"></select>
 
 	<label class="control-label">Suffix</label>
-    <select ng-model="selectedSuffix" ng-options="suffix as suffix.name for suffix in suffixes"></select>
-</div>		
+    <select ng-model="admin.selectedSuffix" ng-options="suffix as suffix.name for suffix in suffixes"></select>
+</div>	
+
+{{admin.selectedPrefix.name}}	{{admin.first_name}} {{admin.last_name}} {{admin.selectedSuffix.name}} {{admin.selectedGender.id}}	
