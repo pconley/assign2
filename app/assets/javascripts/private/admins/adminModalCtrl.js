@@ -1,42 +1,17 @@
 angular.module('assign')
-.controller('AdminModalCtrl', ['$scope','$modalInstance','AdminService', 'admin','toastr',
-function ($scope, $modalInstance, AdminService, admin, toastr) {
+.controller('AdminModalCtrl', ['$scope','$modalInstance','AdminService','OptionsService','admin','toastr',
+function ($scope, $modalInstance, AdminService, OptionsService, admin, toastr) {
 	
 	$scope.admin = admin; // passed via resolve(s)
 	
-    $scope.genders = [
-    	{ id: '', name: 'None' },
-    	{ id: 'M', name: 'Male' },
-        { id: 'F', name: 'Female' }
-    ];    
-    $scope.admin.selectedGender = $scope.genders[0];
-	angular.forEach($scope.genders, function(g) {
-		console.log('+++ gender...',g);
-		if( $scope.admin.gender == g.id ) $scope.admin.selectedGender = g;
-	});
+    $scope.genders = OptionsService.genders;
+    $scope.admin.selectedGender = OptionsService.getGender(admin.gender);
 
-    $scope.prefixes = [
-    	{ id: '', name: '' },
-    	{ id: 'Mr', name: 'Mr.' },
-        { id: 'Ms', name: 'Ms.' },
-        { id: 'Mrs', name: 'Mrs.' },
-        { id: 'Dr', name: 'Dr.' },
-    ];   
-    $scope.admin.selectedPrefix = $scope.prefixes[0];
-	angular.forEach($scope.prefixes, function(x) {
-		if( $scope.admin.prefix == x.id ) $scope.admin.selectedPrefix = x;
-	});
+    $scope.prefixes = OptionsService.prefixes;
+    $scope.admin.selectedPrefix = OptionsService.getPrefix(admin.prefix);
 
-    $scope.suffixes = [
-    	{ id: '', name: '' },
-    	{ id: 'Jr', name: 'Jr.' },
-        { id: 'Sr', name: 'Sr.' },
-        { id: 'III', name: 'III' },
-    ];   
-    $scope.admin.selectedSuffix = $scope.suffixes[0];
-	angular.forEach($scope.suffixes, function(x) {
-		if( $scope.admin.suffix == x.id ) $scope.admin.selectedSuffix = x;
-	});
+    $scope.suffixes = OptionsService.suffixes;
+    $scope.admin.selectedSuffix = OptionsService.getSuffix(admin.suffix);
 
 	$scope.ok = function () {
     	$modalInstance.close('ok');

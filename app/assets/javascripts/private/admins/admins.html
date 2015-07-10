@@ -18,7 +18,7 @@
 		<td><a ng-click="openEditAdmin(row)" tooltip="Click to edit">
 			<i class="fa fa-pencil-square-o"></i>&nbsp;&nbsp;{{row.email | lowercase}}</a>
 		</td>
-		<td>{{name(row)}}</td>
+		<td>{{row.display_name}}</td>
         <td><a ng-click="deleteAdmin(row)"  
 			tooltip="Delete admin user" tooltip-class="red-tooltip">
 			<i class="fa fa-trash-o" style="color:red"></i></a>

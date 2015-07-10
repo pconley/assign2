@@ -12,17 +12,12 @@ angular.module('assign')
 			// have to go through a dirty checking for the matches)
 		    $scope.rowCollection = [].concat($scope.admins);
 		    $scope.displayedCollection = [].concat($scope.admins);
+			angular.forEach($scope.displayedCollection, function(record) {
+				// adds a display name to each record for the view
+				record.display_name = build_display_name(record);
+			});
 		});
-		
-		$scope.name = function(admin){
-			name = ''
-			if( admin.first_name) name += admin.first_name + ' '
-			if( admin.last_name) name += admin.last_name
-			if( admin.middle_name ) name += ' ' + admin.middle_name
-			if( admin.gender ) name += ' ('+admin.gender+')'
-			return name
-		}
-		
+				
 		$scope.deleteAdmin = function(admin){
 			console.log('*** delete admin. admin...',admin);
 			admin.$delete(function(admin) {
@@ -57,7 +52,9 @@ angular.module('assign')
 					if( typeof returnValue === 'object' ){
 						// return value is the newly added admin
 						$scope.rowCollection.push(returnValue)
+						returnValue.display_name = build_display_name(returnValue);
 						$scope.displayCollection.push(returnValue)
+						
 					}				
 				}
 			);
@@ -80,7 +77,8 @@ angular.module('assign')
 					true;
 				}, function (returnValue) {
 					console.log('*** modal instance promise2. returned...',returnValue);
-				    console.log('*** modal instance promise2. dismissed at: ' + new Date());
+					// in case the name changed, update the display name
+					returnValue.display_name = build_display_name(returnValue);
 			});
 		};
 	}	
