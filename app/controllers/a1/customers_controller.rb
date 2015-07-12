@@ -6,7 +6,7 @@ class A1::CustomersController < A1::BaseController
     trace "--- current_agency = #{current_agency}"
     customers = current_agency.customers.to_a
     trace "--- customers = #{customers}"
-    respond_with filter(customers)
+    render :json => filter(customers), :status => 200
   end
 
   def create

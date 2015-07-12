@@ -1,29 +1,23 @@
-angular.module('assign')
-.controller('AdminsCtrl', ['$scope','AdminService','$modal','$filter','toastr',
+app.controller('AdminMainCtrl', ['$scope','AdminService','$modal','$filter','toastr',
 	function($scope,AdminService,$modal,$filter,toastr){
-		
-		$scope.rowCollection = [];
-		$scope.displayCollection = [];
-						
-		$scope.admins = AdminService.query(function() { 
-			// after the query finished...
-			console.log('*** retrieved admins. count='+$scope.admins.length);
-		    // copy the references (you could clone ie angular.copy but then 
-			// have to go through a dirty checking for the matches)
-		    $scope.rowCollection = [].concat($scope.admins);
-		    $scope.displayedCollection = [].concat($scope.admins);
-			angular.forEach($scope.displayedCollection, function(record) {
-				// adds a display name to each record for the view
-				record.display_name = build_display_name(record);
-			});
-		});
 				
+		AdminService.query().$promise
+	      	.then(function(adminsResponse) {
+				console.log('*** adminsResponse...',adminsResponse);
+	        	$scope.adminsCollection = adminsResponse;
+		    	$scope.displayCollection = adminsResponse;
+				angular.forEach($scope.displayCollection, function(record) {
+					// adds a display name to each record for the view
+					record.display_name = build_display_name(record);
+				});
+	      	});
+	    	
 		$scope.deleteAdmin = function(admin){
 			console.log('*** delete admin. admin...',admin);
 			admin.$delete(function(admin) {
 				console.log('*** back in controller');
-				var n1 = $scope.rowCollection.indexOf(admin);
-			  	$scope.rowCollection.splice(n1, 1);
+				var n1 = $scope.adminsCollection.indexOf(admin);
+			  	$scope.adminsCollection.splice(n1, 1);
 				var n2 = $scope.displayCollection.indexOf(admin);
 			  	$scope.displayCollection.splice(n2, 1);
 			}); 
@@ -37,24 +31,22 @@ angular.module('assign')
 			    templateUrl: 'private/admins/addAdmin.html',
 				controller: 'AdminModalCtrl',
 				// modal controller expects some admin provider
-				// but just an empy record for the add function
+				// but just an empty record for the add function
 			    resolve: { admin: function () { return {}; } }
 			});
 			console.log('--- modal instance...',modalInstance);
 			modalInstance.result.then(
 				function (returnValue) {
-					// i am not sure when, if ever this function is triggered
+					// this function is triggered if modal's close function is used
 					console.log('*** openAddAdmin modal function#1 returned...',returnValue);
-					alert('modal instance finction 1 triggered');
-					true; // or why this?
 				}, function (returnValue) {
+					// this function is triggered if modal's dismiss function is used
 					console.log('*** openAddAdmin modal function#2 returned...',returnValue);
 					if( typeof returnValue === 'object' ){
-						// return value is the newly added admin
-						$scope.rowCollection.push(returnValue)
+						// return value is the newly added admin record
+						$scope.adminsCollection.push(returnValue)
 						returnValue.display_name = build_display_name(returnValue);
 						$scope.displayCollection.push(returnValue)
-						
 					}				
 				}
 			);
@@ -70,16 +62,18 @@ angular.module('assign')
 				// pass the admin on to the modal via resolve
 			    resolve: { admin: function () { return admin; } }			    
 			});
-			console.log('--- modal instance...',modalInstance);
 			modalInstance.result.then(
 				function (returnValue) {
-					console.log('*** modal instance promise. returned...',returnValue);
-					true;
+					// this function is triggered if modal's close function is used
+					console.log('*** openEditAdmin: modal returned = '+returnValue);
 				}, function (returnValue) {
-					console.log('*** modal instance promise2. returned...',returnValue);
-					// in case the name changed, update the display name
+					console.log('*** openEditAdmin: modal returned...',returnValue);
+					// this function is triggered if modal's dismiss function is used
+					// return value is the (potentially) changed admin record
+					// so, in case the name changed, update the display name
 					returnValue.display_name = build_display_name(returnValue);
-			});
+				}
+			);
 		};
 	}	
 ]);

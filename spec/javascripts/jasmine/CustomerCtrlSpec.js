@@ -43,7 +43,7 @@ describe('Customers::Controller', function() {
   it('starts with no error message', function() {
     expect($scope.error_message).toEqual('');
   });
-  it('starts with desktop set', function() {
+  xit('starts with desktop set', function() {
     expect($scope.mobile).toEqual(false);
     expect($scope.desktop).toEqual(true);
   });  

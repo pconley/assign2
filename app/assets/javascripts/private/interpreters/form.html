@@ -4,7 +4,7 @@
 			<label class="control-label">Email</label>
 			<input type="text" name="email"
 				class="form-control"
-				ng-model="admin.email"></input>
+				ng-model="interpreter.email"></input>
 			<span class="help-block"
 		      	ng-show="form.email.$invalid && form.email.$dirty">
 		      	email {{errorMessage('email')}}</span>
@@ -16,7 +16,7 @@
 			<input type="password" name="password"
 				class="form-control"
 				placeholder="********"
-				ng-model="admin.password"></input>
+				ng-model="interpreter.password"></input>
 			<span class="help-block"
 		      	ng-show="form.password.$invalid && form.password.$dirty">
 		      	password {{errorMessage('password')}}</span>
@@ -31,7 +31,7 @@
 			<input type="text" name="first_name"
 				class="form-control"
 				placeholder="Patrick"
-				ng-model="admin.first_name"></input>
+				ng-model="interpreter.first_name"></input>
 			<span class="help-block"
 		      	ng-show="form.first_name.$invalid && form.first_name.$dirty">
 		      	first_name {{errorMessage('first_name')}}</span>
@@ -43,7 +43,7 @@
 			<input type="text" name="middle_name"
 				class="form-control"
 				placeholder="J."
-				ng-model="admin.middle_name"></input>
+				ng-model="interpreter.middle_name"></input>
 			<span class="help-block"
 		      	ng-show="form.middle_name.$invalid && form.middle_name.$dirty">
 		      	middle_name {{errorMessage('middle_name')}}</span>
@@ -55,23 +55,29 @@
 			<input type="text" name="last_name"
 				class="form-control"
 				placeholder="Conley"
-				ng-model="admin.last_name"></input>
+				ng-model="interpreter.last_name"></input>
 			<span class="help-block"
 		      	ng-show="form.last_name.$invalid && form.last_name.$dirty">
 		      	last_name {{errorMessage('last_name')}}</span>
 		</div>
 	</div>
 </div>
-
-<!--		
-<div class="form-group">
-	<label class="control-label">Gender</label>
-    <select ng-model="admin.selectedGender" ng-options="gender as gender.name for gender in genders"></select>
-
-	<label class="control-label">Prefix</label>
-    <select ng-model="admin.selectedPrefix" ng-options="prefix as prefix.name for prefix in prefixes"></select>
-
-	<label class="control-label">Suffix</label>
-    <select ng-model="admin.selectedSuffix" ng-options="suffix as suffix.name for suffix in suffixes"></select>
-</div>
--->	
+		
+<div class="row">
+    <div class="col-xs-6">
+		<div class="form-group">
+			<label class="control-label">Gender</label>
+    		<select ng-model="interpreter.selectedGender" ng-options="gender as gender.name for gender in genders"></select>
+		</div>
+	</div>
+    <div class="col-xs-6">
+		<div class="form-group">
+			<label class="control-label">Default Payrate ${{interpreter.default_payrate/100}}</label>
+			<input type="text" name="last_name"
+				class="form-control"
+				placeholder="5000"
+				ng-model="interpreter.default_payrate"></input>
+			</div>	
+		</div>	
+	</div>	
+</div>	

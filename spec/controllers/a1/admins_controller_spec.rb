@@ -14,7 +14,7 @@ RSpec.describe A1::AdminsController, type: :controller do
   end
   
   def values(admin)
-    fields = %w(id email username agency_id last_name first_name middle_name title prefix suffix gender) 
+    fields = %w(id email username last_name first_name middle_name title prefix suffix) 
     admin.slice(*fields)     
   end  
   

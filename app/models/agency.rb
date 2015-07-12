@@ -19,5 +19,9 @@ class Agency < ActiveRecord::Base
   def interpreters
     users.with_role(:interpreter)
   end
+  
+  def users_with_role(role)
+    users.with_role(role)
+  end
     
 end

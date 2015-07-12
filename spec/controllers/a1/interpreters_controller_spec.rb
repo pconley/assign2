@@ -10,7 +10,7 @@ RSpec.describe A1::InterpretersController, type: :controller do
   end
   
   def values(interpreter)
-    fields =%w(id email username default_payrate last_name first_name middle_name title prefix suffix gender) 
+    fields =%w(id email username default_payrate last_name first_name middle_name gender) 
     interpreter.slice(*fields)     
   end  
   
@@ -32,26 +32,25 @@ RSpec.describe A1::InterpretersController, type: :controller do
 
   describe "POST #create" do
     before :each do
-      @create_params = FactoryGirl.attributes_for(:interpreter, agency: nil)
-      @create_params.delete(:role) # not just nil... remove the param
-      @create_params.delete(:agency) # not just nil... remove the param
+      @create_values = {email: 'testterp@spec.tst', username: 'testterp'}
+      @create_params = @create_values.merge(password: '!Password1')
       # puts "+++ create params = #{@create_params}"
     end
     context "with valid params" do
       it "creates a new user in DB" do
         expect {
-          do_post(:create,true,{:user => @create_params})
+          do_post(:create,true,{:interpreter => @create_params})
         }.to change(User, :count).by(1)
       end
       it "all the passed attribs are save as part of interpreter" do
-        do_post(:create,true,{:user => @create_params})
+        do_post(:create,true,{:interpreter => @create_params})
         # puts "+++ create params = #{@create_params}"
         # puts "+++ result body = #{@body}"
         @create_params.delete(:password) # is not returned
         expect(@body).to contain_values_of(@create_params)
       end
       it "has a role of interpreter" do
-        do_post(:create,true,{:user => @create_params})
+        do_post(:create,true,{:interpreter => @create_params})
         user = User.find_by_id(@body['id'])
         expect(user).to be_interpreter
       end
@@ -59,7 +58,7 @@ RSpec.describe A1::InterpretersController, type: :controller do
     context "with invalid params" do
       it "returns an error message" do
         @create_params.delete(:email)
-        do_post(:create,false,{:user => @create_params})
+        do_post(:create,false,{:interpreter => @create_params})
         error = {"errors"=>{"email"=>["can't be blank"]}}
         expect(@body).to eq(error)
       end
@@ -73,11 +72,11 @@ RSpec.describe A1::InterpretersController, type: :controller do
         @update_params = {:email => @new_mail}
       end   
       it "updates the interpreter with attributes" do
-        do_put(:update,true,{:id => @interpreter1.to_param, :user => @update_params})
+        do_put(:update,true,{:id => @interpreter1.to_param, :interpreter => @update_params})
         expect(@body['email']).to eq(@new_mail)
       end
       it "does not change the other attributes" do
-        do_put(:update,true,{:id => @interpreter1.to_param, :user => @update_params})
+        do_put(:update,true,{:id => @interpreter1.to_param, :interpreter => @update_params})
         expect(@body['username']).to eq(@interpreter1.username)
       end
     end
@@ -86,13 +85,13 @@ RSpec.describe A1::InterpretersController, type: :controller do
         @update_params = {:email => ''}
       end   
       it "returns an error message" do
-        do_put(:update,false,{:id => @interpreter1.to_param, :user => @update_params})
+        do_put(:update,false,{:id => @interpreter1.to_param, :interpreter => @update_params})
         error = {"errors"=>{"email"=>["can't be blank"]}}
         expect(@body).to eq(error)
       end
       it "does not change the db record" do
         original_email = @interpreter1.email
-        do_put(:update,false,{:id => @interpreter1.to_param, :user => @update_params})
+        do_put(:update,false,{:id => @interpreter1.to_param, :interpreter => @update_params})
         expect(@interpreter1.reload.email).to eq(original_email)
       end
     end
