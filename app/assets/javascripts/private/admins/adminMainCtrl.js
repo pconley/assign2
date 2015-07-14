@@ -2,11 +2,10 @@ app.controller('AdminMainCtrl', ['$scope','AdminService','$modal','$filter','toa
 	function($scope,AdminService,$modal,$filter,toastr){
 				
 		AdminService.query().$promise
-	      	.then(function(adminsResponse) {
-				console.log('*** adminsResponse...',adminsResponse);
-	        	$scope.adminsCollection = adminsResponse;
-		    	$scope.displayCollection = adminsResponse;
-				angular.forEach($scope.displayCollection, function(record) {
+	      	.then(function(response) {
+				console.log('*** admin query response...',response);
+	        	$scope.adminsCollection = response;
+				angular.forEach($scope.adminsCollection, function(record) {
 					// adds a display name to each record for the view
 					record.display_name = build_display_name(record);
 				});
@@ -16,10 +15,8 @@ app.controller('AdminMainCtrl', ['$scope','AdminService','$modal','$filter','toa
 			console.log('*** delete admin. admin...',admin);
 			admin.$delete(function(admin) {
 				console.log('*** back in controller');
-				var n1 = $scope.adminsCollection.indexOf(admin);
-			  	$scope.adminsCollection.splice(n1, 1);
-				var n2 = $scope.displayCollection.indexOf(admin);
-			  	$scope.displayCollection.splice(n2, 1);
+				var index = $scope.adminsCollection.indexOf(admin);
+			  	$scope.adminsCollection.splice(index, 1);
 			}); 
 		}
 		
@@ -46,7 +43,6 @@ app.controller('AdminMainCtrl', ['$scope','AdminService','$modal','$filter','toa
 						// return value is the newly added admin record
 						$scope.adminsCollection.push(returnValue)
 						returnValue.display_name = build_display_name(returnValue);
-						$scope.displayCollection.push(returnValue)
 					}				
 				}
 			);
