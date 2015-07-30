@@ -1,0 +1,54 @@
+<div class="row">
+    <div class="col-xs-12">
+		<div class="form-group" ng-class="error('company_name')">
+			<label class="control-label">Company Name 
+				<span ng-show="form.company_name.$invalid && form.company_name.$dirty">
+			      	{{errorMessage('company_name')}}</span>
+			</label>
+			<input type="text" name="company_name"
+				class="form-control"
+				placeholder="Altoona Hospice Service"
+				ng-model="customer.company_name" />
+		</div>
+	</div>	
+</div>	
+
+<div class="row">
+    <div class="col-xs-12">
+		<div class="form-group" ng-class="error('contact_name')">
+			<label class="control-label">Contact Name
+				<span ng-show="form.contact_name.$invalid && form.contact_name.$dirty">
+			      	{{errorMessage('contact_name')}}</span>
+			</label>
+			<input type="text" name="contact_name"
+				class="form-control" placeholder="Jane Doe"
+				ng-model="customer.contact_name"></input>
+		</div>
+	</div>	
+</div>	
+
+<div class="row">
+    <div class="col-xs-6">
+		<div class="form-group" ng-class="error('contact_email')">
+			<label class="control-label">Contact Email</label>
+			<input type="text" name="contact_email" 
+				class="form-control" placeholder="jane@gmail.com"
+				ng-model="customer.contact_email"></input>
+			<span class="help-block"
+			    ng-show="form.contact_email.$invalid && form.contact_email.$dirty">
+			    contact email {{errorMessage('contact_email')}}</span>
+		</div>
+	</div>
+	<div class="col-xs-6">	
+		<div class="form-group" ng-class="error('contact_phone')">
+			<label class="control-label">Contact Phone</label>
+			<input type="text" name="contact_phone" 
+				class="form-control" placeholder="5855551212"
+				ng-model="customer.contact_phone"></input>
+			<span class="help-block"
+			    ng-show="form.contact_phone.$invalid && form.contact_phone.$dirty">
+			    contact phone {{errorMessage('contact_phone')}}</span>	
+		</div>
+	</div>
+</div>
+

@@ -1,0 +1,41 @@
+<table st-table="displayedCollection" st-safe-src="jobsCollection" class="table table-striped">
+<thead>
+	<tr>
+		<th colspan="5"><input st-search="" class="input-sm form-control" placeholder="job filter ..." type="text"/></th>
+	</tr>
+    <tr>
+      <th></th>
+      <th st-sort="status" st-skip-natural="true">Status</th>
+      <th st-sort="customer_id" st-skip-natural="true">C#</th>
+      <th st-sort="spare" st-skip-natural="true">Spare</th>
+      <th>
+		<a ng-click="openAddJob()" tooltip-placement="left" tooltip="Create new job user" >
+		<i class="fa fa-plus" style="color:green"></i></a>
+	  </th>  
+    </tr>
+</thead>
+<tbody>
+	<tr ng-repeat-start="row in displayedCollection">
+		<td><a ng-click="openEditJob(row)" tooltip="Click to edit">
+			<i class="fa fa-pencil-square-o"></i></a>
+		</td>
+		<td>{{row.status}}</td>
+		<td>{{row.customer.company_name}}</td>
+		<td>spare</td>
+        <td><a ng-click="deleteJob(row)"  
+			tooltip="Delete job" tooltip-class="red-tooltip">
+			<i class="fa fa-trash-o" style="color:red"></i></a>
+		</td>
+    </tr>
+	<tr ng-repeat-end>
+		<td colspan="20">{{row.description}}</td>
+	</tr>
+</tbody>
+<tfoot>
+	<tr>
+		<td colspan="5" class="text-center">
+			<div st-pagination="" st-items-by-page="4" st-displayed-pages="10"></div>
+		</td>
+	</tr>
+</tfoot>
+</table>

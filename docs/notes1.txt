@@ -1,0 +1,20 @@
+assign2 licensees are "agencies"
+
+Agencies have people: admins, interpreters, and consumers
+Agencies have customers... which are organizations (not people)
+
+agency << user::admins 
+agency << user::interpreters
+agency << org::customers
+
+Agencies have jobs...
+	- created by and admin
+	- requested by a requestor (of customer)
+	- billable to the requestors customer
+	- for a (deaf) consumer
+	- utilizing an interpreter
+	
+Customers (of agencies) have requestors (but there is no requestor object yet) 
+the requestor is just stored as text (name, email, phone) in the job
+
+who is the customer user that logs in???

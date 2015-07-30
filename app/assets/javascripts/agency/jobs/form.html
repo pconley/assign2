@@ -1,0 +1,119 @@
+<div class="row"><!-- Customer -->
+    <div class="col-xs-12">
+		<div class="form-group" ng-class="error('customer_id')">
+			<label class="control-label">Billable Customer:</label>
+    		<select ng-model="job.customer_id" name="customer_id"
+				ng-options="customer.id as customer.company_name for customer in customers"
+				ng-change="changedCustomer(job.customer_id)" >
+				<option value="">-- choose customer --</option>
+			</select>
+			<span class="help-block"
+		      	ng-show="form.customer_id.$invalid && form.customer_id.$dirty">
+		      	Customer {{errorMessage('customer_id')}}</span>
+		</div>
+	</div>	
+</div>
+
+<div class="row"><!-- Requestor Line 1 -->
+    <div class="col-xs-12">
+		<div class="form-group" ng-class="error('requested_by_name')">
+			<label class="control-label">Requestor</label>
+			<input type="text" name="requested_by_name"
+				class="form-control" placeholder="Mary Jo Smith"
+				ng-model="job.requested_by_name"></input>
+			<span class="help-block"
+		      	ng-show="form.requested_by_name.$invalid && form.requested_by_name.$dirty">
+		      	email {{errorMessage('requested_by_name')}}</span>
+		</div>
+	</div>	
+</div>	
+	
+<div class="row"><!-- Requestor Line 2 -->
+    <div class="col-xs-6">
+		<div class="form-group" ng-class="error('requested_by_email')">
+			<label class="control-label">Requestor Email</label>
+			<input type="text" name="requested_by_email" 
+				class="form-control" placeholder="jane@gmail.com"
+				ng-model="job.requested_by_email"></input>
+			<span class="help-block"
+			    ng-show="form.requested_by_email.$invalid && form.requested_by_email.$dirty">
+			    requestor email {{errorMessage('requested_by_email')}}</span>
+		</div>
+	</div>
+	<div class="col-xs-6">	
+		<div class="form-group">
+			<label class="control-label">Requestor Phone</label>
+			<input type="text" name="requested_by_phone" 
+				class="form-control" placeholder="5855551212"
+				ng-model="job.requested_by_phone"></input>
+			<span class="help-block"
+			    ng-show="form.requested_by_phone.$invalid && form.requested_by_phone.$dirty">
+			    contact phone {{errorMessage('requested_by_phone')}}</span>	
+		</div>
+	</div>
+</div>
+
+<div class="row"><!-- Start & Duration -->
+    <div class="col-xs-4">
+		<div class="form-group" ng-class="error('starts_at')">
+			<label class="control-label">Job Date</label>
+			<input type="date" name="starts_at" ng-model="job.starts_at"
+			    placeholder="yyyy-MM-dd" min="2015-07-01" max="2015-12-31" 
+				class="form-control" style="max-width: 150px;" required />
+			<span class="help-block"
+			    ng-show="form.starts_at.$invalid && form.starts_at.$dirty">
+			    job date {{errorMessage('starts_at')}}</span>
+		</div>
+	</div>
+	<div class="col-xs-4">
+		<div class="form-group" ng-class="error('start_time')">
+			<label class="control-label">Start Time</label>
+		    <input type="time" id="exampleInput" name="start_time" ng-model="job.start_time"
+		       placeholder="HH:MM" min="08:00" max="17:00"
+			   class="form-control" style="max-width: 150px;" required />
+			<span class="help-block"
+			    ng-show="form.start_time.$invalid && form.start_time.$dirty">
+			    start time {{errorMessage('start_time')}}</span>
+		</div>
+	</div>
+    <div class="col-xs-4">
+		<div class="form-group">
+			<label>Duration (min)</label>
+			<input type="text" name="duration" ng-model="job.duration" 
+				style="max-width: 100px;" required />
+			<span class="help-block"
+			    ng-show="form.duration.$invalid && form.duration.$dirty">
+			    duration {{errorMessage('duration')}}</span>
+		</div>
+	</div>    
+</div>
+
+<div class="row"><!-- Consumer -->
+    <div class="col-xs-12">
+		<div class="form-group" ng-class="error('consumer')">
+			<label class="control-label">Consumer: Deaf Person(s)</label>
+			<input type="text" name="consumer" class="form-control"
+				placeholder="Joe Con Sumer"
+				ng-model="job.consumer"></input>
+			<span class="help-block"
+		      	ng-show="form.consumer.$invalid && form.consumer.$dirty">
+		      	email {{errorMessage('consumer')}}</span>
+		</div>
+	</div>	
+</div>
+
+<div class="row"><!-- Description -->
+    <div class="col-xs-12">
+		<div class="form-group" ng-class="error('description')">
+			<label class="control-label">Job Description</label>
+			<input type="text" name="description" class="form-control"
+				placeholder="Doctor appointment at Altoona Hospital"
+				ng-model="job.description"></input>
+			<span class="help-block"
+		      	ng-show="form.description.$invalid && form.description.$dirty">
+		      	description {{errorMessage('description')}}</span>
+		</div>
+	</div>	
+</div>
+
+
