@@ -14,21 +14,22 @@ namespace :db do
     Agency.destroy_all
     Customer.destroy_all
     
-    puts "\nPopulate Agencies"
+    puts "\nPopulate Agencies with people"
     agencies.each do |params| 
       code = params[:code]
       params.delete(:code)
       agency = Agency.create(params)
       puts "Created: #{agency}".blue
-      people = [{name: 'pat', role: :admin},{name: 'dan', role: :admin},{name: 'admin', role: :admin}]
-      people.each do |set|
-        name = set[:name]
-        role = set[:role]
-        x = FactoryGirl.create(role, username: "#{name}-#{code}", :email => "#{name}@#{code}.com", agency: agency)
+      people = %w(admin pat dan jim ted tim claire mj)
+      people.each do |name|
+        role = 'admin'
+        username = "#{name}-#{code}"
+        email = "#{name}@#{code}.com"
+        x = FactoryGirl.create(role, username: username, email: email, agency: agency)
         puts "-- #{x}"
       end
       
-      for i in 0..5 # customers
+      for i in 0..10 # customers
          x = FactoryGirl.create(:customer, agency: agency)
          puts "-- #{x}"
          # for j in 0..2
@@ -36,7 +37,7 @@ namespace :db do
          #   puts "---- requestor: #{r}"
          # end
        end
-       for i in 0..5 # interpreters
+       for i in 0..15 # interpreters
          x = FactoryGirl.create(:interpreter, agency: agency)
          puts "-- #{x}"
        end
@@ -50,6 +51,7 @@ namespace :db do
     #     interpreter = ([nil]+agency.interpreters.to_a).sample
     #     FactoryGirl.create(:job, agency: agency, customer: customer, consumer: consumer, interpreter: interpreter)
     #   end
+      
     #   
     end
     puts "\n"

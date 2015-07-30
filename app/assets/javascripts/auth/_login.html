@@ -2,12 +2,18 @@
   <h1>Log In</h1>
 </div>
 
-<form ng-submit="login()">
-  <div class="input-group">
-    <input type="email" class="form-control" placeholder="Email" ng-model="user.email">
-  </div>
-  <div class="input-group">
-    <input type="password" class="form-control" placeholder="Password" ng-model="user.password">
-  </div>
-  <input type="submit" class="btn btn-default" value="Log In">
+<form name="form" ng-submit="login()">
+  	<div class="input-group" ng-class="error('email')">
+    	<input type="text" class="form-control" name="email" placeholder="Email" ng-model="user.email">
+		<span class="help-block" ng-show="emailErrorMessage">{{emailErrorMessage}}</span>
+  	</div>
+  	<div class="input-group" ng-class="error('password')">
+    	<input type="password" class="form-control" name="password" placeholder="Password" ng-model="user.password">
+		<span class="help-block" ng-show="passwordErrorMessage">{{passwordErrorMessage}}</span>
+  	</div>
+  	<input type="submit" class="btn btn-default" value="Log In">
+  	<div class="input-group" ng-class="error('server')">
+    	<input type="text" class="form-control hidden" name="server" ng-model="user.server">
+		<span class="help-block" ng-show="serverErrorMessage">{{serverErrorMessage}}</span>
+	</div>
 </form>

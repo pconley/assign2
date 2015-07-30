@@ -3,31 +3,38 @@ angular.module('assign')
 	function($rootScope, $scope, $state, Auth, toastr, screenSize){
 
 		$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState) {
-			console.log('=== state changed to '+toState.name);
-			// console.log('=== event...', event);
-			console.log('=== toState...', toState);
-			// console.log('=== toState.data...', toState.data);
-			// console.log('=== toParams...', toParams);
-			// console.log('=== fromState...', fromState);
-			var required = toState.data !== undefined && toState.data.requireLogin
-			var local_auth = Auth.isAuthenticated();				
-			console.log('requires login = '+required);
-			console.log('has local auth = '+local_auth);				
-			if(required && !local_auth) {
-				// there is no local authentication (yet) so check with 
-				// the server to see if there is a servers session
-				Auth.currentUser().then(function (user){
-					$scope.user = user; // save or void
-					var server_auth = Auth.isAuthenticated();
-					console.log('server auth = '+server_auth);
-					if( !server_auth ){
-						console.log('*** redirecting to public');
-						$state.go('public');
-						event.preventDefault();
-						return;
-					}
-			  	});
-			}	
+			var requiredRole = toState.data !== undefined && toState.data.requiredRole
+			console.log('==> state change to '+toState.name+' requires role = '+requiredRole);
+			//console.log('=== to state...',toState);
+			//console.log('=== from state...',fromState);
+			if( requiredRole == null ) return; // access ok
+			
+			Auth.currentUser().then(function (user){
+				$scope.user = user; // user or null
+				console.log('*** MainCtrl: state check. user...',user);
+				if( !user ){
+					console.log('*** no server auth: redirecting to public');
+					toastr.warning(requiredRole+' login is required.','Access Failure', {closeButton: true});
+					$state.go('public');
+					event.preventDefault();
+				} else if ( user.role === 'admin' ) {
+					// an admin is authorized for any transition
+					console.log('*** state change authorized for '+user.role);
+				} else if ( user.role === requiredRole ) {
+					// user is authorized for this transition
+					console.log('*** state change authorized for '+user.role);
+				} else {
+					console.log('user role = '+user.role);
+					console.log('reqd role = '+requiredRole);
+					console.log('*** not a role match: redirecting to public');
+					toastr.warning(requiredRole+' login is required.','Access Failure', {closeButton: true});
+					$state.go('public');
+					event.preventDefault();
+				}
+			}, function(error) {
+				console.log('*** redirect to public. unauthenticated error...',error);
+				$state.go('public');
+			});
 		});
 		
 		$scope.desktop = screenSize.on('sm, md, lg', function(match){

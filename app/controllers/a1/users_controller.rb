@@ -7,7 +7,7 @@ class A1::UsersController < A1::BaseController
     trace "--- current_user   = #{current_user}"
     trace "--- current_agency = #{current_agency}"
     users = current_agency.users_with_role(role).to_a
-    trace "--- users = #{users}"
+    trace "--- returning users count = #{users.length}"
     render :json => filter(users), :status => 200
   end
 
