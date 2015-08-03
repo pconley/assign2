@@ -8,7 +8,9 @@
 </head>
 <body ng-controller="MainCtrl">
 <div class="container-fluid">
-		
+	
+	<div ui-view="sidebar"></div>		
+	
 	<div class="row">
     <div class="col-xs-10 col-xs-offset-1">
 		<div ui-view="header"></div>
@@ -26,6 +28,7 @@
 			<div ui-view="footer"></div>
 	</div>
 	</div>
+	
 	
 </div>
 </body>

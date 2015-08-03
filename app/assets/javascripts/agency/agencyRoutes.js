@@ -9,6 +9,7 @@ app.config(['$stateProvider','$urlRouterProvider',
 			views: {
 			    'header':  { templateUrl: 'agency/partials/header.html'  }, 
 				'content': { templateUrl: 'agency/partials/content.html' }, 
+				'sidebar': { templateUrl: 'agency/partials/sidebar.html' }, 
 				'footer':  { templateUrl: 'agency/partials/footer.html'  }
 			},
 		});
