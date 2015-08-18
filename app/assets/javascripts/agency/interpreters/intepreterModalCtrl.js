@@ -1,17 +1,17 @@
 angular.module('assign')
-.controller('InterpreterModalCtrl', ['$scope','$modalInstance','InterpreterService','OptionsService','interpreter','toastr',
-function ($scope, $modalInstance, InterpreterService, OptionsService, interpreter, toastr) {
+.controller('InterpreterModalCtrl', ['$scope','$modalInstance','InterpreterApiService','OptionsService','resource','toastr',
+function ($scope, $modalInstance, InterpreterApiService, OptionsService, resource, toastr) {
 	
-	$scope.interpreter = interpreter; // passed via resolve(s)
+	$scope.interpreter = resource; // passed via resolve(s)
 	
     $scope.genders = OptionsService.genders;
-    $scope.interpreter.selectedGender = OptionsService.getGender(interpreter.gender);
+    $scope.interpreter.selectedGender = OptionsService.getGender(resource.gender);
 
     $scope.prefixes = OptionsService.prefixes;
-    $scope.interpreter.selectedPrefix = OptionsService.getPrefix(interpreter.prefix);
+    $scope.interpreter.selectedPrefix = OptionsService.getPrefix(resource.prefix);
 
     $scope.suffixes = OptionsService.suffixes;
-    $scope.interpreter.selectedSuffix = OptionsService.getSuffix(interpreter.suffix);
+    $scope.interpreter.selectedSuffix = OptionsService.getSuffix(resource.suffix);
 
 	$scope.cancel = function () {
     	$modalInstance.close('cancel');
@@ -20,14 +20,14 @@ function ($scope, $modalInstance, InterpreterService, OptionsService, interprete
 	$scope.add = function () {
 		console.log('*** InterpreterModalCtrl add. interpreter... = '+$scope.interpreter);
 		if(!$scope.interpreter.email || $scope.interpreter.email === '') { return; }
-		copy_selections(interpreter);
-		InterpreterService.create($scope.interpreter, success, failure );		
+		copy_selections(resource);
+		InterpreterApiService.create($scope.interpreter, success, failure );		
   	};
  	
   	$scope.update = function () {
 		console.log('*** InterpreterModalCtrl update. interpreter...'+$scope.interpreter);
 		if(!$scope.interpreter.email || $scope.interpreter.email === '') { return; }
-		copy_selections(interpreter);
+		copy_selections(resource);
 		interpreter.$update(success,failure);
   	};
 

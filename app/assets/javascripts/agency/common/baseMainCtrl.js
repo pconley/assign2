@@ -1,4 +1,12 @@
 app.controller('BaseMainCtrl', ['$scope','$modal','service', function($scope,$modal,service) {
+	
+	service.query().$promise
+      	.then(function(response) {
+			console.log('*** BaseMainCtrl: query loaded '+response.length+' resources');
+			console.log('*** BaseMainCtrl: resource[0]...',response[0]);
+        	$scope.rowsCollection = response;
+      	});
+	
 		
 	$scope.toggleDetails = function(row){ toggle_row(row,$scope.rowsCollection) };
 	
@@ -60,5 +68,7 @@ app.controller('BaseMainCtrl', ['$scope','$modal','service', function($scope,$mo
 			}
 		);
 	};
+	
+	$scope.formatName = function(rec){ return build_display_name(rec); };
 	
 }]);

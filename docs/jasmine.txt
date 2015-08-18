@@ -1,0 +1,11 @@
+// the tests themselves are in spec/javascripts/jasmine
+
+// run the server
+
+rake jasmine
+
+// see the results
+
+localhost:8888
+
+// refresh page to re-run

@@ -1,4 +1,4 @@
-app.factory("InterpreterService", function($resource) {
+app.factory("InterpreterApiService", function($resource) {
   return $resource("/a1/interpreters/:id", { id: "@id" },
     {
       'create':  { method: 'POST' },

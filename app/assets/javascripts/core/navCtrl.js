@@ -8,15 +8,17 @@ angular.module('assign')
 			$state.go('public');
 		};
 		
+		// NOTE: there are two things that i do not understand in this code section.  first, the
+		// visible value used in the ng-show seems reveresed. second the escape pressed seems to 
+		// be broadcast twice on one key press
 		$rootScope.sidebarVisible = true;
 		// using root scope because this controller is used (created) twice in header and sidebar
 	    $scope.toggleSidebar = function(){ $rootScope.sidebarVisible = !$rootScope.sidebarVisible;};
-	    $rootScope.$on("escapePressed", _toggle); // a non-agular event requires $apply
-	    function _toggle() {
-			console.log('_toggle');
+	    $rootScope.$on("escapePressed", _hidebar);   // a non-agular event requires $apply
+	    $rootScope.$on("documentClicked", _hidebar); // a non-agular event requires $apply
+	    function _hidebar() {
 	        $scope.$apply(function() {
-				$rootScope.sidebarVisible = false;
-	            //$scope.toggleSidebar(); 
+				$rootScope.sidebarVisible = true;
 	        });
 	    }
 			

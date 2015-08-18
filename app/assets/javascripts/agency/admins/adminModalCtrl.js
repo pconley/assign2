@@ -1,34 +1,42 @@
 angular.module('assign')
-.controller('AgencyAdminCtrl', ['$scope','$modalInstance','AdminService','OptionsService','admin','toastr',
-function ($scope, $modalInstance, AdminService, OptionsService, admin, toastr) {
+.controller('AdminModalCtrl', ['$scope','$controller','$modalInstance','AdminService','OptionsService','resource','toastr',
+function ($scope, $controller, $modalInstance, AdminService, OptionsService, resource, toastr) {
 	
-	$scope.admin = admin; // passed via resolve(s)
+	$controller('BaseModalCtrl', {$scope: $scope, $modalInstance: $modalInstance, toastr: toastr}); 
+	
+	$scope.admin = resource; // passed via resolve(s) used (and modified) in the form
+	
+	var rules = { email: 'required' };
+		
+	$scope.add = function () { $scope.create(AdminService,$scope.admin,rules) };
+ 	
+  	$scope.update = function () { $scope.change($scope.admin,rules) };
 	
     $scope.genders = OptionsService.genders;
-    $scope.admin.selectedGender = OptionsService.getGender(admin.gender);
+    $scope.admin.selectedGender = OptionsService.getGender(resource.gender);
 
     $scope.prefixes = OptionsService.prefixes;
-    $scope.admin.selectedPrefix = OptionsService.getPrefix(admin.prefix);
+    $scope.admin.selectedPrefix = OptionsService.getPrefix(resource.prefix);
 
     $scope.suffixes = OptionsService.suffixes;
-    $scope.admin.selectedSuffix = OptionsService.getSuffix(admin.suffix);
+    $scope.admin.selectedSuffix = OptionsService.getSuffix(resource.suffix);
 
-	$scope.cancel = function () {
+	$scope.xcancel = function () {
     	$modalInstance.close('cancel');
   	};
 	
-	$scope.add = function () {
+	$scope.xadd = function () {
 		console.log('*** AdminModalCtrl add. admin... = '+$scope.admin);
 		if(!$scope.admin.email || $scope.admin.email === '') { return; }
-		copy_selections(admin);
+		copy_selections(resource);
 		AdminService.create($scope.admin, success, failure );		
   	};
  	
-  	$scope.update = function () {
+  	$scope.xupdate = function () {
 		console.log('*** AdminModalCtrl update. admin...'+$scope.admin);
 		if(!$scope.admin.email || $scope.admin.email === '') { return; }
-		copy_selections(admin);
-		admin.$update(success,failure);
+		copy_selections(resource);
+		resource.$update(success,failure);
   	};
 
 	function copy_selections(record){
@@ -37,13 +45,13 @@ function ($scope, $modalInstance, AdminService, OptionsService, admin, toastr) {
 		record.prefix = record.selectedPrefix.id;
 	};
 		
-	function success(response){
+	function xsuccess(response){
 		console.log("*** AdminModalCtrl: service success response...",response);
 		toastr.success('Change worked.','Admin Users', {closeButton: true});
 		$modalInstance.dismiss(response);
 	};
 	
-  	function failure(response) {
+  	function xfailure(response) {
 		console.log("*** AdminModalCtrl: service failure response...",response);
 		//console.log("*** $form...",$scope.form)
 		angular.forEach(response.data.errors, function(errors, key) {
@@ -55,7 +63,7 @@ function ($scope, $modalInstance, AdminService, OptionsService, admin, toastr) {
     	});
   	};
 
-	$scope.error = function(name) {
+	$scope.xerror = function(name) {
 	    var s = $scope.form[name];
 		if( s == null ){
 			return ''
@@ -63,7 +71,7 @@ function ($scope, $modalInstance, AdminService, OptionsService, admin, toastr) {
 	    	return s.$invalid && s.$dirty ? "has-error" : "";
 		}
 	};
-	$scope.errorMessage = function(name) {
+	$scope.xerrorMessage = function(name) {
 	  	result = [];
 	    var s = $scope.form[name];
 		if( s == null ){

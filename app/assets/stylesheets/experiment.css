@@ -27,3 +27,27 @@
     border-style: solid;
     border-color: #ff0000 #0000ff;
 }
+
+
+
+.strike {
+    text-decoration: line-through;
+}
+.bold {
+    font-weight: bold;
+    background-color: yellow;
+}
+.red {
+    color: red;
+}
+.has-error {
+    color: red;
+    background-color: yellow;
+}
+.orange {
+    color: orange;
+}
+
+.topless { 
+     border-top: none !important; 
+ }

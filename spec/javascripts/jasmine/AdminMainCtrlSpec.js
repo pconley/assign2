@@ -1,4 +1,4 @@
-describe('A1::Admins::TestCtrl', function() {
+describe('A1::Admins::MainCtrl', function() {
     var $rootScope, $scope;
 	var $httpBackend, service;
 
@@ -33,21 +33,21 @@ describe('A1::Admins::TestCtrl', function() {
 			$httpBackend.expectGET('/a1/admins');
 			expect(1).toEqual(1);
 		});
-		it('should set the adminsCollection', function() {
-		    expect($scope.adminsCollection.length).toEqual(3);
+		it('should set the rowsCollection', function() {
+		    expect($scope.rowsCollection.length).toEqual(3);
 		});
 	});
-	describe('deleteAdmin', function() {
+	describe('deleteResource', function() {
 		beforeEach(function(){
 			var id = rec1.id;
 			$httpBackend.whenDELETE('/a1/admins/'+id).respond({});
 			$httpBackend.expectDELETE('/a1/admins/'+id);
 		})
 		it('should remove the record', function() {
-			var row1 = $scope.adminsCollection[0];
-			$scope.deleteAdmin(row1);
+			var row1 = $scope.rowsCollection[0];
+			$scope.deleteResource(row1);
 			$httpBackend.flush();
-			expect($scope.adminsCollection.length).toEqual(2);		
+			expect($scope.rowsCollection.length).toEqual(2);		
 		});
 	});
 	

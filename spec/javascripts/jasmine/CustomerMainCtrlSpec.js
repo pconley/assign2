@@ -39,8 +39,8 @@ describe('A1::Customers::MainCtrl', function() {
 		it('should query the CustomerService', function() {
 		    expect(mockCustomerService.query).toHaveBeenCalled();
 		});
-		it('should set the displayCollection', function() {
-		    expect($scope.displayCollection).toEqual(mockQueryResponse);
+		it('should set the rowsCollection', function() {
+		    expect($scope.rowsCollection).toEqual(mockQueryResponse);
 		});
 		// it('should set $scope.somethingAfterBagelsLoad to true', function() {
 		//     expect($scope.somethingAfterBagelsLoad).toBe(true);

@@ -9,7 +9,7 @@ app.controller('BaseModalCtrl', ['$scope', '$modalInstance','toastr', function($
 		if( validate(rules) ) service.create(resource, success, failure );		
   	};
 
-  	$scope.change = function (resource) { 
+  	$scope.change = function (resource,rules) { 
 		console.log('*** BaseModalCtrl#change. resource...',resource);
 		if( validate(rules) ) resource.$update(success,failure);
 	};	
