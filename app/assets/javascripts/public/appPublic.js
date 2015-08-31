@@ -40,8 +40,8 @@ app.config(['$stateProvider','$urlRouterProvider',
 			url: '/login',
 	        views: {
            		'content@': {
-			    	templateUrl: 'auth/_login.html',
-			        controller: 'AuthCtrl'
+			    	templateUrl: 'public/login/login.html',
+			        controller: 'LoginCtrl'
 			     },
 			},
 			onEnter: ['$state', 'Auth', 'AccessService', 'toastr', function($state, Auth, AccessService, toastr) {

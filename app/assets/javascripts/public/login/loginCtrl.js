@@ -1,5 +1,5 @@
 angular.module('assign')
-.controller('AuthCtrl', ['$scope','$state','Auth','AccessService','toastr',
+.controller('LoginCtrl', ['$scope','$state','Auth','AccessService','toastr',
 	function($scope, $state, Auth, AccessService, toastr){
 		$scope.user = {};
 		$scope.hasLocalError = false;
@@ -7,8 +7,8 @@ angular.module('assign')
 		$scope.serverErrorMessage = '';
 		$scope.passwordErrorMessage = '';
 		$scope.login = function() {
-			console.log('AuthCtrl#login');
-			console.log('form...',$scope.form);
+			console.log('*** LoginCtrl#login');
+			console.log('*** form...',$scope.form);
 			$scope.hasLocalError = false;
 			$scope.emailErrorMessage = '';
 			$scope.serverErrorMessage = '';
@@ -41,12 +41,6 @@ angular.module('assign')
 				$scope.serverErrorMessage = "server authentication failed";
 			});
 		};
-
-	  	$scope.register = function() {
-	    	Auth.register($scope.user).then(function(){
-	      		$state.go('home'); // TODO: registration
-	    	});
-	  	};
 	
 		$scope.error = function(name) {
 		    var s = $scope.form[name];
